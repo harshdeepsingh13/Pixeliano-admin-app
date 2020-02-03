@@ -14,4 +14,13 @@ export default {
     greyMedium: '#6c6e6e',
     greyLight: '#999999',
   },
+  basicColors: {
+    lightBlueGrey: "#d7f3f3",
+    greyishBrown: "#424242",
+    salmon: "#ff6d6d",
+    dusk: "#4a5977",
+    blueyGrey: "#99a1b2",
+    greyishBrownTwo: "#414141",
+    black: "#000000"
+  }
 };
