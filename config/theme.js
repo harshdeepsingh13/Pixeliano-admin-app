@@ -21,6 +21,7 @@ export default {
     dusk: "#4a5977",
     blueyGrey: "#99a1b2",
     greyishBrownTwo: "#414141",
-    black: "#000000"
+    black: "#000000",
+    successGreen: '#4BB543'
   }
 };
