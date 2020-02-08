@@ -1,6 +1,8 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import theme from './config/theme';
+import React from 'react';
+import AppIcon from './components/AppIcon';
 
 export default containedComponent => {
   const appNavigator = createStackNavigator(
@@ -23,6 +25,9 @@ export default containedComponent => {
         },
         title: 'RSS Generator',
         headerTintColor: 'white',
+        headerLeft: () => <AppIcon
+          size={42}
+        />,
       },
     },
   );
