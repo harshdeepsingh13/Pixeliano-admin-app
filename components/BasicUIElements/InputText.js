@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import theme from '../../config/theme';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faAt, faICursor} from '@fortawesome/free-solid-svg-icons';
+import {faAt, faICursor, faKey} from '@fortawesome/free-solid-svg-icons';
 import Error from '../Error';
 import config from '../../config/config';
 import {faEye} from '@fortawesome/free-regular-svg-icons';
 
-library.add(faICursor, faAt, faEye);
+library.add(faICursor, faAt, faEye, faKey);
 
 const InputText = React.forwardRef(
   (props, ref) => {
@@ -146,12 +146,12 @@ const InputText = React.forwardRef(
                 icon={['far', 'eye']}
                 color={theme.text.greyMedium}
                 style={{
-                  alignSelf: "flex-start",
+                  alignSelf: 'flex-start',
                   // width: 100,
-                  paddingTop:20,
+                  paddingTop: 20,
                   paddingBottom: 20,
                   paddingLeft: 10,
-                  paddingRight: 10
+                  paddingRight: 10,
                   // backgroundColor: 'red',
                 }}
               />
