@@ -39,6 +39,8 @@ const InputText = React.forwardRef(
       secureTextEntry,
       canBeVisible,
       onVisible,
+      toSubmitOnReturnKey,
+      handleOnSubmitEditing,
     } = props;
 
     const [isError, setIsError] = useState(false);
@@ -89,6 +91,7 @@ const InputText = React.forwardRef(
     };
     const inputOnSubmitEditing = () => {
       isNext && nextInputRef.current.focus();
+      toSubmitOnReturnKey && handleOnSubmitEditing();
     };
 
     return (
@@ -114,7 +117,7 @@ const InputText = React.forwardRef(
           <TextInput
             name={name}
             id={id}
-            placeholder={placeholder}
+            placeholder={`${placeholder}${required ? '*' : ''}`}
             value={value}
             editable={!disabled}
             style={
@@ -261,6 +264,8 @@ InputText.propTypes = {
   secureTextEntry: PropTypes.bool,
   canBeVisible: PropTypes.bool,
   onVisible: PropTypes.func,
+  handleOnSubmitEditing: PropTypes.func,
+  toSubmitOnReturnKey: PropTypes.bool,
 };
 
 InputText.defaultProps = {
@@ -288,6 +293,8 @@ InputText.defaultProps = {
   secureTextEntry: false,
   canBeVisible: false,
   onVisible: () => console.log('Input Text onVisible'),
+  handleOnSubmitEditing: () => console.log('Input Text submit editing'),
+  toSubmitOnReturnKey: false,
 };
 
 InputText.navigationOptions = {};
