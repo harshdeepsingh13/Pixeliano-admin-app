@@ -49,7 +49,7 @@ const Button = ({
 Button.propTypes = {
   text: PropTypes.string,
   handleClick: PropTypes.func,
-  theme: PropTypes.oneOf(['primary', 'secondary']),
+  theme: PropTypes.oneOf(['primary', 'secondary', 'menu']),
   styles: PropTypes.object,
   showActivityIndicator: PropTypes.bool,
 };
