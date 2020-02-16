@@ -9,3 +9,22 @@ export const verifyEmail = (email) =>
       email,
     },
   });
+
+export const signInUser = (email, password) =>
+  axios({
+    method: 'GET',
+    url: `${config.apiUrl}user/signIn`,
+    params: {
+      email,
+      password,
+    },
+  });
+
+export const registerNewUser = userDetails =>
+  axios({
+    method: 'POST',
+    url: `${config.apiUrl}user/register`,
+    data: {
+      ...userDetails,
+    },
+  });
