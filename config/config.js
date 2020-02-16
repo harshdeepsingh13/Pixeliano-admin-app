@@ -8,6 +8,17 @@ export default {
     websiteNotValid: 'website is not valid',
     contactNumberNotValid: 'Contact number entered is not valid',
     numberOutOfRange: 'the number entered is out of given range',
+    APIresponseMessages: {
+      login: {
+        '404': 'Email or Password not valid',
+        '500': 'Internal Error'
+      },
+      register:{
+        '409': "User with the given Email already exists",
+        '500': 'Internal Error'
+      },
+      '500': 'Internal Error'
+    },
   },
   emailRegex: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   passwordRegex: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
@@ -17,5 +28,8 @@ export default {
     success: 'success',
     failed: 'failed',
     default: 'default',
+  },
+  storageKey: {
+    userDetails: 'user',
   },
 };
