@@ -61,13 +61,19 @@ const SignIn = props => {
         resetStackWithNavigationRoute(props.navigation, 'Dashboard');
       } catch (e) {
         console.log('e', Object.keys(e), e.isAxiosError);
-        if (e.isAxiosError) {
+        if (e.isAxiosError && e.response) {
           setSignInStatus({
             ...signInStatus,
             status: config.status.failed,
             errorMessage: config.errorMessages.APIresponseMessages.login[e.response.data.status],
           });
           console.log('ee', e.response.data);
+        } else {
+          setSignInStatus({
+            ...signInStatus,
+            status: config.status.failed,
+            errorMessage: config.errorMessages.APIresponseMessages[500]
+          })
         }
       }
 
