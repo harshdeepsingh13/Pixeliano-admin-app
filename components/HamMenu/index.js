@@ -1,6 +1,5 @@
 import React, {useRef} from 'react';
 import {View} from 'react-native';
-import style from './styles.js';
 import PropTypes from 'prop-types';
 import Menu from 'react-native-material-menu';
 import HamburgerButton from '../BasicUIElements/HamburgerButton';
@@ -31,8 +30,9 @@ const HamMenu = ({
           menus.map(({
                        text,
                        handleClick,
-                     }) => (
+                     }, index) => (
             <MenuOption
+              key={index}
               menuHandleClick={() => {
                 hideMenu();
                 handleClick();
