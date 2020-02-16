@@ -25,4 +25,43 @@ export default StyleSheet.create({
   },
   errorContainer: {},
   passwordVisibleTouchable: {},
+  buttonContainer: {
+    padding: 10,
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    // elevation: 5,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  primaryButton: {
+    backgroundColor: theme.light.button.primary,
+  },
+  secondaryButton: {
+    borderColor: theme.light.primaryDark,
+    borderWidth: 2,
+    backgroundColor: 'transparent',
+  },
+  menuButton: {
+    borderColor: theme.light.primaryDark,
+    borderWidth: 2,
+    backgroundColor: 'transparent',
+  },
+  buttonText: (themeArgs) => ({
+    color: themeArgs === 'primary' ? 'white' : theme.light.primaryDark,
+    textAlign: 'center',
+  }),
+  hamburgerContainer: {
+    borderRadius: 10000,
+    overflow: 'hidden',
+  },
+  hamburger: {
+    height: 50,
+    width: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 });
