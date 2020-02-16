@@ -36,6 +36,8 @@ const InputEmail = React.forwardRef(
       isNext,
       nextInputRef,
       returnKeyType,
+      checkEmailRegex,
+      toVerifyEmail
     } = props;
 
     const [isError, setIsError] = useState(false);
@@ -87,7 +89,7 @@ const InputEmail = React.forwardRef(
         setIsError(true);
         setErrorMessage(config.errorMessages.requiredFieldEmpty);
       } else {
-        const [isError, errorMessage] = checkValue(value);
+        const [isError, errorMessage] = checkValue(value, checkEmailRegex);
         if (isError) {
           setIsError(true);
           setErrorMessage(errorMessage);
@@ -106,7 +108,7 @@ const InputEmail = React.forwardRef(
                                          text: value,
                                        },
                                      }) => {
-      if (!isError && !isEmpty) {
+      if (!isError && !isEmpty && toVerifyEmail) {
         setEmailVerified({...emailVerified, status: config.status.started});
         const isEmailVerified = await verifyEmailService(value);
         console.log('em', isEmailVerified);
@@ -138,7 +140,7 @@ const InputEmail = React.forwardRef(
           <TextInput
             name={name}
             id={id}
-            placeholder={placeholder}
+            placeholder={`${placeholder}${required ? '*' : ''}`}
             value={value}
             editable={!disabled}
             style={
@@ -282,6 +284,8 @@ InputEmail.propTypes = {
     'route',
     'yahoo',
   ]),
+  checkEmailRegex: PropTypes.bool,
+  toVerifyEmail: PropTypes.bool
 };
 
 InputEmail.defaultProps = {
@@ -293,10 +297,12 @@ InputEmail.defaultProps = {
   required: false,
   handleError: () => console.log('Input Type Text Error'),
   styles: {},
-  checkValue: email =>
-    email.match(config.emailRegex) ?
+  checkValue: (email, checkEmailRegex) =>
+    checkEmailRegex ?
+    (email.match(config.emailRegex) ?
       [false, ''] :
-      [true, config.errorMessages.emailNotFormatted],
+      [true, config.errorMessages.emailNotFormatted]) : [false, ''],
+  checkEmailRegex: true,
   isEmpty: false,
   iconName: 'at',
   disabled: false,
@@ -309,6 +315,7 @@ InputEmail.defaultProps = {
   isNext: false,
   nextInputRef: undefined,
   returnKeyType: 'done',
+  toVerifyEmail: true
 };
 
 InputEmail.navigationOptions = {};
