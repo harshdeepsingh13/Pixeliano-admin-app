@@ -1,4 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+import theme from '../../config/theme';
 
 export default StyleSheet.create({
   errorContainer: {
@@ -9,8 +10,17 @@ export default StyleSheet.create({
   error: {
     width: '100%',
     color: 'red',
-    fontStyle: 'italic',
     textTransform: 'capitalize',
+  },
+  fieldError: {
+    fontStyle: 'italic',
     textAlign: 'right',
+  },
+  displayError: {
+    textAlign: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: theme.backgroundAndBorders.lightRed,
+    fontWeight: 'bold',
   },
 });

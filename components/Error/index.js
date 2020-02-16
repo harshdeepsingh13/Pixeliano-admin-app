@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
 const Error = ({
                  message,
                  styles,
+                 errorType,
                }) => {
   return (
     <View style={style.errorContainer}>
-      <Text style={style.error}>
+      <Text style={[style.error, style[errorType]]}>
         {
           message
         }
@@ -21,6 +22,14 @@ const Error = ({
 Error.propTypes = {
   message: PropTypes.string.isRequired,
   styles: PropTypes.object,
+  errorType: PropTypes.oneOf([
+    'fieldError',
+    'displayError',
+  ]),
+};
+
+Error.defaultProps = {
+  errorType: 'fieldError',
 };
 
 Error.navigationOptions = {};
