@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {View, Text} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {View} from 'react-native';
 import style from './styles.js';
-import PropTypes from 'prop-types';
 import InputText from '../../components/BasicUIElements/InputText';
 import InputEmail from '../../components/BasicUIElements/InputEmail';
 import Button from '../../components/BasicUIElements/Button';
@@ -143,7 +142,7 @@ const SignIn = props => {
           }
           text={'Sign In'}
           handleClick={handleSignIn}
-          showActivityIndicator={signInStatus === config.status.started}
+          showActivityIndicator={signInStatus.status === config.status.started}
         />
         <Button
           styles={
