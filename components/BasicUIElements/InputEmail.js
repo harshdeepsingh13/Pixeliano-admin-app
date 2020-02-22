@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TextInput, ActivityIndicator} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, TextInput, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -309,7 +309,7 @@ InputEmail.defaultProps = {
   canBeCanceled: false,
   onCancel: () => console.log('Input Type Text OnCancel'),
   contentType: 'emailAddress',
-  capitalize: 'sentences',
+  capitalize: 'none',
   handleBlur: () => console.log('Input Text Blurr'),
   keyboardType: 'email-address',
   isNext: false,
