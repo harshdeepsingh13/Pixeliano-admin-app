@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TextInput, TouchableNativeFeedback} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {TextInput, TouchableNativeFeedback, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import theme from '../../config/theme';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faAt, faICursor, faKey} from '@fortawesome/free-solid-svg-icons';
+import {faAt, faClosedCaptioning, faICursor, faKey} from '@fortawesome/free-solid-svg-icons';
 import Error from '../Error';
 import config from '../../config/config';
 import {faEye} from '@fortawesome/free-regular-svg-icons';
 
-library.add(faICursor, faAt, faEye, faKey);
+library.add(faICursor, faAt, faEye, faKey, faClosedCaptioning);
 
 const InputText = React.forwardRef(
   (props, ref) => {
