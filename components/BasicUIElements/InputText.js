@@ -41,7 +41,15 @@ const InputText = React.forwardRef(
       onVisible,
       toSubmitOnReturnKey,
       handleOnSubmitEditing,
+      multiline,
+      numberOfLines,
     } = props;
+    const textInputStylesArr = [
+      style.field,
+      styles,
+      {opacity: disabled ? 0.4 : 1},
+    ];
+    multiline && textInputStylesArr.push({height: 20 * numberOfLines});
 
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -120,13 +128,7 @@ const InputText = React.forwardRef(
             placeholder={`${placeholder}${required ? '*' : ''}`}
             value={value}
             editable={!disabled}
-            style={
-              {
-                ...styles,
-                ...style.field,
-                opacity: disabled ? 0.4 : 1,
-              }
-            }
+            style={textInputStylesArr}
             underlineColorAndroid={isError ? 'red' : theme.light.primary}
             ref={ref}
             autoCapitalize={capitalize}
@@ -135,6 +137,9 @@ const InputText = React.forwardRef(
             blurOnSubmit={!isNext}
             returnKeyType={returnKeyType}
             secureTextEntry={secureTextEntry}
+            multiline={multiline}
+            numberOfLines={multiline ? numberOfLines : 1}
+            scrollEnabled={multiline}
             onChange={handleChange}
             onSubmitEditing={inputOnSubmitEditing}
           />
@@ -266,6 +271,8 @@ InputText.propTypes = {
   onVisible: PropTypes.func,
   handleOnSubmitEditing: PropTypes.func,
   toSubmitOnReturnKey: PropTypes.bool,
+  multiline: PropTypes.bool,
+  numberOfLines: PropTypes.number,
 };
 
 InputText.defaultProps = {
@@ -295,6 +302,8 @@ InputText.defaultProps = {
   onVisible: () => console.log('Input Text onVisible'),
   handleOnSubmitEditing: () => console.log('Input Text submit editing'),
   toSubmitOnReturnKey: false,
+  multiline: false,
+  numberOfLines: 4,
 };
 
 InputText.navigationOptions = {};
