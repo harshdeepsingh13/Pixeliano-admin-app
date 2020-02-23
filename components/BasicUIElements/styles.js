@@ -22,6 +22,7 @@ export default StyleSheet.create({
   },
   icon: {
     padding: 10,
+    marginRight:5
   },
   errorContainer: {},
   passwordVisibleTouchable: {},
