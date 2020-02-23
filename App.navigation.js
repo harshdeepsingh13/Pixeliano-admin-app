@@ -2,10 +2,10 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import theme from './config/theme';
 import React from 'react';
-import AppIcon from './components/AppIcon';
 import SignIn from './containerComponents/SignIn';
 import Dashboard from './containerComponents/Dashboard';
 import RegisterUser from './containerComponents/RegisterUser';
+import InsertData from './containerComponents/InsertData';
 
 export default containedComponent => {
   const appNavigator = createStackNavigator(
@@ -16,9 +16,10 @@ export default containedComponent => {
             title: "RSS"
          }*/
       },
-      SignIn: SignIn,
-      RegisterUser:RegisterUser,
-      Dashboard: Dashboard,
+      SignIn,
+      RegisterUser,
+      Dashboard,
+      InsertData
     },
     {
       initialRouteName: 'Home',
