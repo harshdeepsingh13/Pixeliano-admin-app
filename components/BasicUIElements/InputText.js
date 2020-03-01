@@ -43,6 +43,7 @@ const InputText = React.forwardRef(
       handleOnSubmitEditing,
       multiline,
       numberOfLines,
+      onFocus,
     } = props;
     const textInputStylesArr = [
       style.field,
@@ -142,6 +143,7 @@ const InputText = React.forwardRef(
             scrollEnabled={multiline}
             onChange={handleChange}
             onSubmitEditing={inputOnSubmitEditing}
+            onFocus={onFocus}
           />
           {
             secureTextEntry && canBeVisible &&
@@ -273,6 +275,7 @@ InputText.propTypes = {
   toSubmitOnReturnKey: PropTypes.bool,
   multiline: PropTypes.bool,
   numberOfLines: PropTypes.number,
+  onFocus: PropTypes.func,
 };
 
 InputText.defaultProps = {
@@ -304,6 +307,7 @@ InputText.defaultProps = {
   toSubmitOnReturnKey: false,
   multiline: false,
   numberOfLines: 4,
+  onFocus: () => console.log('input text onFocus'),
 };
 
 InputText.navigationOptions = {};
