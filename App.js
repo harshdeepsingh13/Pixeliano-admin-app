@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, StatusBar} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import AppNavigation from './App.navigation';
 import theme from './config/theme';
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -16,7 +16,7 @@ const App = props => {
       StatusBar.setBackgroundColor(theme.light.primaryDark);
       StatusBar.setBarStyle('light-content');
       (async () => {
-        const token = await getToken();
+        const token = getToken();
         // props.navigation.navigate('Home');
         if (token) {
           // props.navigation.push('Home');
