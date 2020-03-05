@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config/config';
+import axiosInstance from './axiosInstance.service';
 
 export const verifyEmail = (email) =>
   axios({
@@ -28,3 +29,28 @@ export const registerNewUser = userDetails =>
       ...userDetails,
     },
   });
+
+export const getTagsSuggestion = autocomplete =>
+  axiosInstance({
+    method: 'GET',
+    url: `${config.apiUrl}post/getTags`,
+    params: {
+      q: autocomplete,
+    },
+  });
+
+export const saveNewPost = ({
+                              picture,
+                              caption,
+                              tags,
+                            }) => {
+  return axiosInstance({
+    method: 'POST',
+    url: `${config.apiUrl}post/newRecord`,
+    data: {
+      picture,
+      caption,
+      tags,
+    },
+  });
+};
