@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
@@ -21,10 +21,19 @@ const AutoComplete = ({
   const [autocompleteItems, setAutocompleteItems] = useState([]);
   const [inputViewDisplayConfig, setInputViewDisplayConfig] = useState({});
 
+  const filterItems = useCallback(
+    () =>
+      [
+        ...autocompleteItems.filter(item =>
+          item.value.substring(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()),
+      ],
+    [inputValue],
+  );
+
   useEffect(
     () => {
       (async () => {
-        if (inputValue.length > 2 && autocompleteItems.length === 0) {
+        if (inputValue.length >= 1 && serviceStatus !== config.status.success) {
           try {
             setServiceStatus(config.status.started);
             const items = await autoCompleteService(inputValue);
@@ -46,25 +55,26 @@ const AutoComplete = ({
   );
   return (
     <View style={style.autocompleteContainer}>
-      <View style={style.autocompleteInput} onLayout={({
-                                                         nativeEvent: {
-                                                           layout: {
-                                                             x,
-                                                             y,
-                                                             width,
-                                                             height,
-                                                           },
-                                                         },
-                                                       }) => {
-        console.log('sadads', x, y, width, height, Math.ceil(1.1 * height));
-        setInputViewDisplayConfig({x, y, width, height});
+      <View
+        style={style.autocompleteInput}
+        onLayout={({
+                     nativeEvent: {
+                       layout: {
+                         x,
+                         y,
+                         width,
+                         height,
+                       },
+                     },
+                   }) => {
+          setInputViewDisplayConfig({x, y, width, height});
       }}>
         {
           children(inputValue)
         }
       </View>
       {
-        inputValue.length > 2 &&
+        inputValue.length > 0 &&
         <ScrollView
           style={style.autocomplete(inputViewDisplayConfig)}
           keyboardShouldPersistTaps={'always'}
@@ -78,7 +88,7 @@ const AutoComplete = ({
           }
           {
             serviceStatus === config.status.success &&
-            autocompleteItems.map((item) =>
+            filterItems().map((item) =>
               (
                 <TouchableOpacity
                   key={item.itemId}
