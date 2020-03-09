@@ -1,13 +1,11 @@
 import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
-import style from './styles.js';
-import PropTypes from 'prop-types';
+import {View} from 'react-native';
 import config from '../../config/config';
-import Button from '../../components/BasicUIElements/Button';
 import {deleteItem, getToken} from '../../services/asyncStorage.service';
 import resetStackWithNavigateRoute from '../../services/resetStackWithNavigateRoute.service';
-import Hamburger from '../../components/BasicUIElements/HamburgerButton';
 import HamMenu from '../../components/HamMenu';
+import FloatingButton from '../../components/BasicUIElements/FloatingButton';
+import Posts from '../../components/Posts';
 
 const Dashboard = props => {
 
@@ -27,8 +25,9 @@ const Dashboard = props => {
   );
 
   return (
-    <View>
-      <Text>Dashboard</Text>
+    <View style={{height: '100%'}}>
+      <Posts/>
+      <FloatingButton handleOnClick={() => props.navigation.navigate('InsertData')}/>
     </View>
   );
 };
