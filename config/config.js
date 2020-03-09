@@ -36,7 +36,7 @@ export default {
   cloudinary: {
     apiKey: '851184338949628',
     apiSecret: '0sIXpYfKjBO9XlDvX9AnZHvOLKw',
-    secureDeliveryURL: 'https://res.cloudinary.com/harshdeep-singh/image/upload/Rss%20Generator/',
+    secureDeliveryURL: 'https://res.cloudinary.com/harshdeep-singh/image/upload/',
     apiURL: 'https://api.cloudinary.com/v1_1/harshdeep-singh/image/upload/',
   },
 };
