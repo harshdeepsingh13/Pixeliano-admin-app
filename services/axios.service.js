@@ -43,8 +43,8 @@ export const saveNewPost = ({
                               picture,
                               caption,
                               tags,
-                            }) => {
-  return axiosInstance({
+                            }) =>
+  axiosInstance({
     method: 'POST',
     url: `${config.apiUrl}post/newRecord`,
     data: {
@@ -53,4 +53,9 @@ export const saveNewPost = ({
       tags,
     },
   });
-};
+
+exports.getPosts = () =>
+  axiosInstance({
+    method: 'GET',
+    url: `${config.apiUrl}post/getAllPosts`,
+  });
