@@ -14,11 +14,13 @@ export default StyleSheet.create({
     borderBottomWidth: 1.5,
     paddingRight: 10,
     paddingLeft: 10,
+    backgroundColor: theme.backgroundAndBorders.greyMedium,
   },
   tagText: {
     textTransform: 'capitalize',
     lineHeight: 40,
-    fontSize: 18
+    fontSize: 16,
+    fontStyle: 'italic'
   },
   closeIcon: {
     // padding:
