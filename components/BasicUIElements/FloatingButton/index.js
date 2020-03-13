@@ -3,12 +3,13 @@ import {TouchableOpacity, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faEdit, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
-library.add(faPlus);
+library.add(faPlus, faEdit);
 
 const FloatingButton = ({
+                          iconName,
                           styles,
                           handleOnClick: handleOnClickFromProps,
                         }) => {
@@ -25,7 +26,7 @@ const FloatingButton = ({
     >
       <View style={style.floatingButton}>
         <FontAwesomeIcon
-          icon={'plus'}
+          icon={iconName}
           color={'white'}
         />
       </View>
@@ -34,6 +35,7 @@ const FloatingButton = ({
 };
 
 FloatingButton.propTypes = {
+  iconName: PropTypes.string,
   styles: PropTypes.object,
   handleOnClick: PropTypes.func.isRequired,
 };
@@ -41,6 +43,7 @@ FloatingButton.propTypes = {
 FloatingButton.defaultProps = {
   handleOnClick: () => console.log('floating button click'),
   styles: {},
+  iconName: 'plus',
 };
 
 FloatingButton.navigationOptions = {};
