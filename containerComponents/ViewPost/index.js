@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {ScrollView, StatusBar, View} from 'react-native';
-import HeaderWithImage from '../HeaderWithImage';
+import HeaderWithImage from '../../components/HeaderWithImage';
 import theme from '../../config/theme';
-import ViewCaption from '../ViewCaption';
-import TagsContainer from '../TagsContainer';
-import Tag from '../Tag';
-import FloatingButton from '../BasicUIElements/FloatingButton';
+import ViewCaption from '../../components/ViewCaption';
+import TagsContainer from '../../components/TagsContainer';
+import Tag from '../../components/Tag';
+import FloatingButton from '../../components/BasicUIElements/FloatingButton';
 
 const ViewPost = ({
                     navigation,

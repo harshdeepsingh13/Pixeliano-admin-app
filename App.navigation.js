@@ -6,7 +6,7 @@ import SignIn from './containerComponents/SignIn';
 import Dashboard from './containerComponents/Dashboard';
 import RegisterUser from './containerComponents/RegisterUser';
 import InsertData from './containerComponents/InsertData';
-import ViewPost from './components/ViewPost';
+import ViewPost from './containerComponents/ViewPost';
 
 export default containedComponent => {
   const appNavigator = createStackNavigator(
