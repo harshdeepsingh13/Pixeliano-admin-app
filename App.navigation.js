@@ -6,6 +6,7 @@ import SignIn from './containerComponents/SignIn';
 import Dashboard from './containerComponents/Dashboard';
 import RegisterUser from './containerComponents/RegisterUser';
 import InsertData from './containerComponents/InsertData';
+import ViewPost from './components/ViewPost';
 
 export default containedComponent => {
   const appNavigator = createStackNavigator(
@@ -19,7 +20,8 @@ export default containedComponent => {
       SignIn,
       RegisterUser,
       Dashboard,
-      InsertData
+      InsertData,
+      ViewPost,
     },
     {
       initialRouteName: 'Home',
@@ -27,6 +29,7 @@ export default containedComponent => {
         headerStyle: {
           backgroundColor: theme.light.primary,
         },
+        headerMode: 'screen',
         headerTitleStyle: {
           // fontWeight: 'bold'
         },
