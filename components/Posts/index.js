@@ -44,6 +44,7 @@ const Posts = props => {
         caption={item.caption}
         picture={{shortName: item.picture.shortName, providerName: item.picture.providerName}}
         tags={item.tags}
+        postId={item.postId}
       />}
       keyExtractor={(item) => item.postId}
       onRefresh={getPosts}
