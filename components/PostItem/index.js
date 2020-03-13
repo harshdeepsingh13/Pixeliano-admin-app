@@ -3,12 +3,14 @@ import {Image, Text, TouchableNativeFeedback, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import {getCloudinaryImageUrl} from '../../services/cloudinary.service';
+import {withNavigation} from 'react-navigation';
 
 const PostItem = ({
                     caption,
                     picture,
                     postId,
                     tags,
+                    navigation,
                   }) => {
 
   const getPictureUrl = () => {
@@ -27,9 +29,17 @@ const PostItem = ({
         return null;
     }
   };
+
   return (
     <View style={style.postItemContainer}>
-      <TouchableNativeFeedback>
+      <TouchableNativeFeedback
+        onPress={() => navigation.navigate('ViewPost', {
+          caption,
+          picture,
+          postId,
+          tags,
+        })}
+      >
         <View>
           <View style={style.captionPictureContainer}>
             <Text style={style.caption}>
@@ -74,4 +84,4 @@ PostItem.propTypes = {
 
 PostItem.navigationOptions = {};
 
-export default PostItem;
+export default withNavigation(PostItem);
