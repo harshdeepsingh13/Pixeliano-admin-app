@@ -27,7 +27,7 @@ const AutoComplete = ({
         ...autocompleteItems.filter(item =>
           item.value.substring(0, inputValue.length).toUpperCase() === inputValue.toUpperCase()),
       ],
-    [inputValue],
+    [inputValue, autocompleteItems],
   );
 
   useEffect(
