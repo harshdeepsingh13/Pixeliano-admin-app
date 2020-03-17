@@ -1,15 +1,22 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {KeyboardAvoidingView, ScrollView} from 'react-native';
 import ImageSelector from '../../components/BasicUIElements/ImageSelector';
 import InputText from '../../components/BasicUIElements/InputText';
 import Tag from '../../components/Tag';
 import TagsContainer from '../../components/TagsContainer';
 import AutoComplete from '../../components/AutoComplete';
-import {getTagsSuggestion, saveNewPost} from '../../services/axios.service';
+import {getTagsSuggestion, saveNewPost, updatePost as updatePostService} from '../../services/axios.service';
 import Button from '../../components/BasicUIElements/Button';
-import {uploadImage} from '../../services/cloudinary.service';
+import {getCloudinaryImageUrl, uploadImage} from '../../services/cloudinary.service';
+import config from '../../config/config';
 
-const InsertData = props => {
+const InsertData = ({navigation}) => {
+  const isNewPost = useMemo(
+    () => (
+      !navigation.state.params
+    ),
+    []);
+  // console.log('na', navigation.state, navigation.state.params, 'isNew', isNewPost);
 
   const [picture, setPicture] = useState({
     value: undefined,
@@ -22,23 +29,55 @@ const InsertData = props => {
     value: [],
     inputValue: '',
   });
+  const [savePostStatus, setSavePostStatus] = useState(config.status.default);
+
+  useEffect(
+    () => {
+      if (!isNewPost) {
+        const {
+          picture: pictureFromNav,
+          caption: captionFromNav,
+          tags: tagsFromNav,
+        } = navigation.state.params;
+        setPicture({
+          ...picture,
+          value: {
+            ...pictureFromNav,
+            data: getCloudinaryImageUrl({publicId: pictureFromNav.shortName}),
+          },
+        });
+        setCaption({
+          ...caption,
+          value: captionFromNav,
+        });
+        setTags({
+          ...tags,
+          value: tagsFromNav.map(tag => ({tag: tag.tag, tagId: tag.tagId})),
+        });
+      }
+    },
+    [isNewPost, navigation.state.params, setPicture, setCaption, setTags],
+  );
 
   const scrollViewRef = useRef(undefined);
 
-  const getImage = useCallback((imageResponse) => {
-    if (!imageResponse.didCancel) {
-      setPicture({
-        ...picture,
-        value: {
-          ...imageResponse,
-          data: `data:image/*;base64,${imageResponse.data}`,
-        },
-      });
-    }
-  }, []);
+  const getImage = useCallback(
+    (imageResponse) => {
+      if (!imageResponse.didCancel) {
+        setPicture({
+          ...picture,
+          value: {
+            ...imageResponse,
+            data: `data:image/*;base64,${imageResponse.data}`,
+          },
+        });
+      }
+    },
+    [],
+  );
   const handleChange = ({name, value}) => {
     name === 'caption' && setCaption({...caption, value});
-    name === 'tags' && setTags({...tags, inputValue: value});
+    name === 'tags' && setTags(prevTags => ({...prevTags, inputValue: value}));
 
     if (name === 'tags' && tags.inputValue.length === 2) {
       scrollViewRef.current.scrollToEnd();
@@ -60,18 +99,17 @@ const InsertData = props => {
     });
   };
   const removeTag = (index) => {
-    setTags({
-      ...tags,
+    setTags((prevTags) => ({
+      ...prevTags,
       value: [
-        ...tags.value.slice(0, index),
-        ...tags.value.slice(index + 1),
+        ...prevTags.value.slice(0, index),
+        ...prevTags.value.slice(index + 1),
       ],
-    });
+    }));
   };
   const tagAutoComplete = async () => {
     try {
       const {data: {data}} = await getTagsSuggestion(tags.inputValue);
-      console.log('response', data);
       return data.tags.map(tag => ({value: tag.tag, itemId: tag.tagId}));
     } catch (e) {
       console.log('error in tags autocomplete', e);
@@ -79,6 +117,12 @@ const InsertData = props => {
     }
   };
   const handlePostSubmit = async () => {
+    setSavePostStatus(config.status.started);
+    isNewPost ?
+      await newPost() :
+      await updatePost();
+  };
+  const newPost = async () => {
     try {
       const {public_id, secure_url} = await uploadImage(picture.value.data);
       await saveNewPost({
@@ -89,8 +133,37 @@ const InsertData = props => {
         caption: caption.value,
         tags: tags.value,
       });
+      setSavePostStatus(config.status.success);
     } catch (e) {
-      console.log('handle post error', e);
+      setSavePostStatus(config.status.failed);
+      console.log('new post error', e);
+    }
+  };
+  const updatePost = async () => {
+    let fullUrl = '';
+    let shortName = '';
+    console.log('up picture', picture);
+    try {
+      if (!picture.value.pictureId) {
+        const {public_id, secure_url} = await uploadImage(picture.value.data);
+        fullUrl = secure_url;
+        shortName = public_id;
+      }
+      await updatePostService({
+        picture: picture.value.pictureId ?
+          {...picture.value} :
+          {
+            fullUrl,
+            shortName,
+          },
+        caption: caption.value,
+        tags: tags.value,
+        postId: navigation.state.params.postId,
+      });
+      setSavePostStatus(config.status.success);
+    } catch (e) {
+      setSavePostStatus(config.status.failed);
+      console.log('update post error', e);
     }
   };
 
@@ -163,6 +236,7 @@ const InsertData = props => {
         />
         <Button
           handleClick={handlePostSubmit}
+          showActivityIndicator={savePostStatus === config.status.started}
         />
       </ScrollView>
     </KeyboardAvoidingView>
@@ -171,8 +245,8 @@ const InsertData = props => {
 
 InsertData.propTypes = {};
 
-InsertData.navigationOptions = {
-  title: 'Insert a new Record',
-};
+InsertData.navigationOptions = ({navigation}) => ({
+  title: !navigation.state.params ? 'Insert a new Record' : 'Edit',
+});
 
 export default InsertData;
