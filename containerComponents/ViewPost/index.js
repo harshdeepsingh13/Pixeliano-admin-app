@@ -59,7 +59,12 @@ const ViewPost = ({
       </ScrollView>
       <FloatingButton
         iconName={'edit'}
-        handleOnClick={() => console.log('12345')}
+        handleOnClick={() => navigation.replace('InsertData', {
+          caption,
+          picture,
+          postId,
+          tags,
+        })}
       />
     </View>
   );
