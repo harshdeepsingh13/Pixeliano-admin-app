@@ -75,6 +75,7 @@ const PostItem = ({
 PostItem.propTypes = {
   caption: PropTypes.string,
   picture: PropTypes.shape({
+    pictureId: PropTypes.string.isRequired,
     providerName: PropTypes.string,
     shortName: PropTypes.string,
   }),
