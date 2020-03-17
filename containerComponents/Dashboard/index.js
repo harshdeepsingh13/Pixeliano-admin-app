@@ -36,7 +36,7 @@ Dashboard.propTypes = {};
 
 Dashboard.navigationOptions = ({navigation}) => ({
   headerRight: (arg) => {
-    console.log('a', arg);
+    // console.log('a', arg);
     return (
       <HamMenu
         buttonColor={arg.tintColor}
