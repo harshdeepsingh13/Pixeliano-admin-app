@@ -54,6 +54,23 @@ export const saveNewPost = ({
     },
   });
 
+export const updatePost = ({
+                             picture,
+                             caption,
+                             tags,
+                             postId,
+                           }) =>
+  axiosInstance({
+    method: 'PUT',
+    url: `${config.apiUrl}post/updateRecord`,
+    data: {
+      picture,
+      caption,
+      tags,
+      postId,
+    },
+  });
+
 exports.getPosts = () =>
   axiosInstance({
     method: 'GET',
