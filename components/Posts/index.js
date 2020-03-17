@@ -1,10 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
+import {withNavigation} from 'react-navigation';
 import {getPosts as getPostsAPI} from '../../services/axios.service';
 import config from '../../config/config';
 import PostItem from '../PostItem';
 
-const Posts = props => {
+const Posts = ({navigation}) => {
   const [posts, setPosts] = useState([]);
   const [postsCount, setPostsCount] = useState(posts.length);
   const [getPostsStatus, setGetPostsStatus] = useState(config.status.default);
@@ -12,6 +13,14 @@ const Posts = props => {
   useEffect(
     () => {
       getPosts();
+      // console.log('n', navigation);
+      const {remove} = navigation.addListener(
+        'willFocus',
+        () => {
+          getPosts();
+        },
+      );
+      return remove;
     },
     [],
   );
@@ -22,7 +31,6 @@ const Posts = props => {
         try {
           setGetPostsStatus(config.status.started);
           const {data: {data: {posts: postsFromAPI, totalPosts}}} = await getPostsAPI();
-          console.log('po', postsFromAPI);
           setPosts([...postsFromAPI]);
           setPostsCount(totalPosts);
           setGetPostsStatus(config.status.success);
@@ -42,7 +50,11 @@ const Posts = props => {
       // renderItem={({item}) => (<View><Text>{JSON.stringify(item)}</Text></View>)}
       renderItem={({item}) => <PostItem
         caption={item.caption}
-        picture={{shortName: item.picture.shortName, providerName: item.picture.providerName}}
+        picture={{
+          shortName: item.picture.shortName,
+          providerName: item.picture.providerName,
+          pictureId: item.picture.pictureId,
+        }}
         tags={item.tags}
         postId={item.postId}
       />}
@@ -56,4 +68,4 @@ Posts.propTypes = {};
 
 Posts.navigationOptions = {};
 
-export default Posts;
+export default withNavigation(Posts);
