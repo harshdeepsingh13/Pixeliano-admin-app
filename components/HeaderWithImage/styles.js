@@ -1,12 +1,11 @@
 import {StyleSheet} from 'react-native';
-import theme from '../../config/theme';
 
 export default StyleSheet.create({
   headerWithImageContainer: {
     // height: 56,
     // height: 300,
     elevation: 20,
-    backgroundColor: theme.light.primaryDark,
+    // backgroundColor: theme.light.primaryDark,
     flexDirection: 'row',
     alignItems: 'flex-start',
     paddingTop: 10,
@@ -32,6 +31,6 @@ export default StyleSheet.create({
   },
   imageContainer: {
     aspectRatio: 1.5,
-    opacity: 0.9,
+    // opacity: 0.9,
   },
 });
