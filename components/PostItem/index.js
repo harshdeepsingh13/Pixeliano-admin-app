@@ -1,9 +1,10 @@
 import React from 'react';
-import {Image, Text, TouchableNativeFeedback, View} from 'react-native';
+import {Image, ImageBackground, Text, TouchableNativeFeedback, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import {getCloudinaryImageUrl} from '../../services/cloudinary.service';
 import {withNavigation} from 'react-navigation';
+import assets from '../../config/assets';
 
 const PostItem = ({
                     caption,
@@ -47,10 +48,15 @@ const PostItem = ({
                 caption.length > 50 ? `${caption.slice(0, 50)}...` : caption
               }
             </Text>
-            <Image
+            <ImageBackground
+              source={assets.logo.icon.grey}
               style={style.picture}
-              source={{uri: getPictureUrl()}}
-            />
+            >
+              <Image
+                style={style.picture}
+                source={{uri: getPictureUrl()}}
+              />
+            </ImageBackground>
           </View>
           <View style={style.tagsContainer}>
             {
