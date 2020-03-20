@@ -5,8 +5,8 @@ const axiosInstance = axios.create();
 let token;
 getToken().then(t => token = t);
 
-axiosInstance.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer ${token}`;
+axiosInstance.interceptors.request.use(async (config) => {
+  config.headers.Authorization = `Bearer ${await getToken()}`;
   return config;
 });
 
