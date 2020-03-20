@@ -1,3 +1,10 @@
+const apiUrl = {
+  homeLocalHostIP: 'http://192.168.1.15:8080/api/v1/',
+  rnDaemon: 'http://10.0.2.2:8080/api/v1/',
+  officeLocalHostIP: 'http://10.1.212.207:8080/api/v1/',
+  herokuDev: 'https://broadcast-rss-dev.herokuapp.com/api/v1/',
+};
+
 export default {
   errorMessages: {
     requiredFieldEmpty: 'required field',
@@ -12,18 +19,18 @@ export default {
       login: {
         '404': 'Email or Password not valid',
         '500': 'Internal Error',
-        '401': 'Email or Password not valid'
+        '401': 'Email or Password not valid',
       },
-      register:{
-        '409': "User with the given Email already exists",
-        '500': 'Internal Error'
+      register: {
+        '409': 'User with the given Email already exists',
+        '500': 'Internal Error',
       },
-      '500': 'Internal Error'
+      '500': 'Internal Error',
     },
   },
   emailRegex: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   passwordRegex: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-  apiUrl: /*'http://10.0.2.2:8080/api/v1/'*//* 'http://192.168.1.15:8080/api/v1/'*/ 'http://10.1.212.207:8080/api/v1/',
+  apiUrl: apiUrl.rnDaemon,
   status: {
     started: 'started',
     success: 'success',
