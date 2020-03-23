@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableNativeFeedback, Text, ActivityIndicator} from 'react-native';
+import {ActivityIndicator, Text, TouchableNativeFeedback, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import theme from '../../config/theme';
@@ -25,11 +25,14 @@ const Button = ({
       onPress={onPressHandle}
       // style={{flexDirection: 'row', justifyContent: 'center'}}
     >
-      <View style={[
-        style.buttonContainer,
-        style[`${themeFromProps}Button`],
-        styles,
-      ]}>
+      <View
+        style={[
+          style.buttonContainer,
+          style[`${themeFromProps}Button`],
+          styles,
+        ]}
+        pointerEvents={showActivityIndicator ? 'none' : 'auto'}
+      >
         {
           showActivityIndicator ?
             <ActivityIndicator
