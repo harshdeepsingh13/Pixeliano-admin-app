@@ -33,7 +33,7 @@ const AutoComplete = ({
   useEffect(
     () => {
       (async () => {
-        if (inputValue.length >= 1 && serviceStatus !== config.status.success) {
+        if (inputValue.length >= 1 && serviceStatus !== config.status.success && serviceStatus !== config.status.started) {
           try {
             setServiceStatus(config.status.started);
             const items = await autoCompleteService(inputValue);
