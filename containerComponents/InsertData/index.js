@@ -228,6 +228,7 @@ const InsertData = ({navigation}) => {
               id={'tags'}
               placeholder={'Tags'}
               value={inputValue}
+              iconName={'hashtag'}
               handleChange={handleChange}
             />
           )
