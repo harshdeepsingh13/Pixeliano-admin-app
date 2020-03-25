@@ -4,11 +4,13 @@ import {withNavigation} from 'react-navigation';
 import {getPosts as getPostsAPI} from '../../services/axios.service';
 import config from '../../config/config';
 import PostItem from '../PostItem';
+import NoPosts from '../NoPosts';
 
 const Posts = ({navigation}) => {
   const [posts, setPosts] = useState([]);
-  const [postsCount, setPostsCount] = useState(posts.length);
+  // const [postsCount, setPostsCount] = useState(posts.length);
   const [getPostsStatus, setGetPostsStatus] = useState(config.status.default);
+  const [emptyPostsReason, setEmptyPostsReason] = useState(config.status.default);
 
   useEffect(
     () => {
@@ -32,10 +34,16 @@ const Posts = ({navigation}) => {
           setGetPostsStatus(config.status.started);
           const {data: {data: {posts: postsFromAPI, totalPosts}}} = await getPostsAPI();
           setPosts([...postsFromAPI]);
-          setPostsCount(totalPosts);
+          if (!totalPosts) {
+            setEmptyPostsReason('no_post');
+          }
           setGetPostsStatus(config.status.success);
         } catch (e) {
           console.log('e', e);
+          if (e.isAxiosError && e.message === 'Network Error') {
+            setPosts([]);
+            setEmptyPostsReason('network_error');
+          }
           setGetPostsStatus(config.status.failed);
         }
       })();
@@ -59,6 +67,8 @@ const Posts = ({navigation}) => {
         postId={item.postId}
       />}
       keyExtractor={(item) => item.postId}
+      initialNumToRender={10}
+      ListEmptyComponent={<NoPosts reason={emptyPostsReason}/>}
       onRefresh={getPosts}
     />
   );
