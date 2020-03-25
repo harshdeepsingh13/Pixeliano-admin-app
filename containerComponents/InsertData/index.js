@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {KeyboardAvoidingView, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import ImageSelector from '../../components/BasicUIElements/ImageSelector';
 import InputText from '../../components/BasicUIElements/InputText';
 import Tag from '../../components/Tag';
@@ -9,6 +9,7 @@ import {getTagsSuggestion, saveNewPost, updatePost as updatePostService} from '.
 import Button from '../../components/BasicUIElements/Button';
 import {getCloudinaryImageUrl, uploadImage} from '../../services/cloudinary.service';
 import config from '../../config/config';
+import createToast from '../../services/createToast.service';
 
 const InsertData = ({navigation}) => {
   const isNewPost = useMemo(
@@ -117,7 +118,7 @@ const InsertData = ({navigation}) => {
     }
   };
   const handlePostSubmit = async () => {
-    setSavePostStatus(config.status.started);
+    // setSavePostStatus(config.status.started);
     isNewPost ?
       await newPost() :
       await updatePost();
@@ -134,6 +135,8 @@ const InsertData = ({navigation}) => {
         tags: tags.value,
       });
       setSavePostStatus(config.status.success);
+      createToast('New Post Saved', 'LONG');
+      navigation.goBack();
     } catch (e) {
       setSavePostStatus(config.status.failed);
       console.log('new post error', e);
@@ -161,6 +164,8 @@ const InsertData = ({navigation}) => {
         postId: navigation.state.params.postId,
       });
       setSavePostStatus(config.status.success);
+      createToast('Post Updated', 'LONG');
+      navigation.goBack();
     } catch (e) {
       setSavePostStatus(config.status.failed);
       console.log('update post error', e);
@@ -168,78 +173,86 @@ const InsertData = ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior={'height'} enabled>
-      <ScrollView
-        nestedScrollEnabled={true}
-        ref={scrollViewRef}
-        keyboardShouldPersistTaps={'always'}
-        keyboardDismissMode={'on-drag'}
-      >
-        <ImageSelector
-          title={'Select an Image'}
-          callback={getImage}
-          image={picture.value ? `${picture.value.data}` : ''}
-          whatToShow={
-            useMemo(
-              () => ({
-                showSelector: !picture.value,
-                showImage: !!picture.value,
-              }),
-              [picture.value],
-            )
-          }
-        />
-        {/*  {
+    // <KeyboardAvoidingView behavior={'height'}>
+    <ScrollView
+      nestedScrollEnabled={true}
+      ref={scrollViewRef}
+      keyboardShouldPersistTaps={'always'}
+      keyboardDismissMode={'on-drag'}
+    >
+      <ImageSelector
+        title={'Select an Image'}
+        callback={getImage}
+        image={picture.value ? `${picture.value.data}` : ''}
+        whatToShow={
+          useMemo(
+            () => ({
+              showSelector: !picture.value,
+              showImage: !!picture.value,
+            }),
+            [picture.value],
+          )
+        }
+      />
+      {/*  {
         picture.value &&
         <Image source={{uri: picture.value.data}} style={{aspectRatio: 1, resizeMode: 'contain'}}/>
       }*/}
-        <TagsContainer>
-          {
-            tags.value.map(({tag, tagId}, index) => (
-              <Tag
-                key={tagId ? tagId : Math.floor((Math.random() * 1000) + 1)}
-                tagId={index}
-                tagText={tag}
-                onClose={removeTag}
-              />
-            ))
-          }
-        </TagsContainer>
-        <AutoComplete
-          inputValue={tags.inputValue}
-          autoCompleteService={tagAutoComplete}
-          itemSelectCallback={addTag}
-        >
-          {
-            inputValue => (
-              <InputText
-                name={'tags'}
-                id={'tags'}
-                placeholder={'Tags'}
-                value={inputValue}
-                handleChange={handleChange}
-              />
-            )
-          }
-        </AutoComplete>
-        <InputText
-          name={'caption'}
-          id={'caption'}
-          capitalize={'sentences'}
-          iconName={'closed-captioning'}
-          placeholder={'Caption'}
-          multiline={true}
-          value={caption.value}
-          numberOfLines={10}
-          returnKeyType={'none'}
-          handleChange={handleChange}
-        />
-        <Button
-          handleClick={handlePostSubmit}
-          showActivityIndicator={savePostStatus === config.status.started}
-        />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      <TagsContainer>
+        {
+          useMemo(
+            () => (
+              tags.value.map(({tag, tagId}, index) =>
+                (
+                  <Tag
+                    key={tagId ? tagId : Math.floor((Math.random() * 10000) + 1)}
+                    tagId={index}
+                    tagText={tag}
+                    onClose={removeTag}
+                  />
+                ))
+            ),
+            [tags.value],
+          )
+        }
+      </TagsContainer>
+      <AutoComplete
+        inputValue={tags.inputValue}
+        autoCompleteService={tagAutoComplete}
+        itemSelectCallback={addTag}
+      >
+        {
+          inputValue => (
+            <InputText
+              name={'tags'}
+              id={'tags'}
+              placeholder={'Tags'}
+              value={inputValue}
+              handleChange={handleChange}
+            />
+          )
+        }
+      </AutoComplete>
+      <InputText
+        name={'caption'}
+        id={'caption'}
+        capitalize={'sentences'}
+        iconName={'closed-captioning'}
+        placeholder={'Caption'}
+        multiline={true}
+        value={caption.value}
+        numberOfLines={10}
+        returnKeyType={'none'}
+        handleChange={handleChange}
+        styles={{fontSize: 16}}
+      />
+      <Button
+        text={isNewPost ? 'Save Record' : 'Update Record'}
+        handleClick={() => {setSavePostStatus(config.status.started); handlePostSubmit();}}
+        showActivityIndicator={savePostStatus === config.status.started}
+      />
+    </ScrollView>
+    // </KeyboardAvoidingView>
   );
 };
 
