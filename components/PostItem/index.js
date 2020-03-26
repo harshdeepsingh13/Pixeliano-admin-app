@@ -3,7 +3,7 @@ import {Image, ImageBackground, Text, TouchableNativeFeedback, View} from 'react
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import {getCloudinaryImageUrl} from '../../services/cloudinary.service';
-import {withNavigation} from 'react-navigation';
+import {useNavigation} from '@react-navigation/native';
 import assets from '../../config/assets';
 
 const PostItem = ({
@@ -11,8 +11,9 @@ const PostItem = ({
                     picture,
                     postId,
                     tags,
-                    navigation,
                   }) => {
+
+  const navigation = useNavigation();
 
   const getPictureUrl = () => {
     switch (picture.providerName) {
@@ -91,4 +92,4 @@ PostItem.propTypes = {
 
 PostItem.navigationOptions = {};
 
-export default withNavigation(PostItem);
+export default PostItem;

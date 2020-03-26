@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TouchableNativeFeedback, View} from 'react-native';
-import {withNavigation} from 'react-navigation';
+import {useNavigation} from '@react-navigation/native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -10,7 +10,9 @@ import theme from '../../config/theme';
 
 library.add(faExclamationTriangle, faClone);
 
-const NoPosts = ({reason, navigation}) => {
+const NoPosts = ({reason}) => {
+
+  const navigation = useNavigation();
 
   return (
     <View style={style.noPostsContainer}>
@@ -63,4 +65,4 @@ NoPosts.defaultProps = {
 
 NoPosts.navigationOptions = {};
 
-export default withNavigation(NoPosts);
+export default NoPosts;

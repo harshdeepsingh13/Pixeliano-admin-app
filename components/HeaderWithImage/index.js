@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {ImageBackground, TouchableNativeFeedback, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
-import {withNavigation} from 'react-navigation';
+import {useNavigation} from '@react-navigation/native';
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -14,8 +14,9 @@ library.add(faArrowLeft);
 const HeaderWithImage = ({
                            imageProvider,
                            imageShortName,
-                           navigation,
                          }) => {
+
+  const navigation = useNavigation();
 
   const getImageUrl = useCallback(
     () => {
@@ -64,4 +65,4 @@ HeaderWithImage.propTypes = {
 
 HeaderWithImage.navigationOptions = {};
 
-export default withNavigation(HeaderWithImage);
+export default HeaderWithImage;

@@ -34,27 +34,4 @@ const Dashboard = props => {
 
 Dashboard.propTypes = {};
 
-Dashboard.navigationOptions = ({navigation}) => ({
-  headerRight: (arg) => {
-    // console.log('a', arg);
-    return (
-      <HamMenu
-        buttonColor={arg.tintColor}
-        menus={[
-          {
-            text: 'Logout',
-            handleClick: () => {
-              (async () => {
-                  await deleteItem();
-                  resetStackWithNavigateRoute(navigation, 'SignIn');
-                }
-              )();
-            },
-          },
-        ]}
-      />
-    );
-  },
-});
-
 export default Dashboard;

@@ -9,6 +9,7 @@ import FloatingButton from '../../components/BasicUIElements/FloatingButton';
 
 const ViewPost = ({
                     navigation,
+                    route,
                   }) => {
 
   const {
@@ -16,7 +17,7 @@ const ViewPost = ({
     picture,
     postId,
     tags,
-  } = navigation.state.params;
+  } = route.params;
 
   useEffect(
     () => {
@@ -71,9 +72,5 @@ const ViewPost = ({
 };
 
 ViewPost.propTypes = {};
-
-ViewPost.navigationOptions = {
-  headerShown: false,
-};
 
 export default ViewPost;

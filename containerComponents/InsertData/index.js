@@ -11,10 +11,10 @@ import {getCloudinaryImageUrl, uploadImage} from '../../services/cloudinary.serv
 import config from '../../config/config';
 import createToast from '../../services/createToast.service';
 
-const InsertData = ({navigation}) => {
+const InsertData = ({navigation, route}) => {
   const isNewPost = useMemo(
     () => (
-      !navigation.state.params
+      !route.params
     ),
     []);
   // console.log('na', navigation.state, navigation.state.params, 'isNew', isNewPost);
@@ -39,7 +39,7 @@ const InsertData = ({navigation}) => {
           picture: pictureFromNav,
           caption: captionFromNav,
           tags: tagsFromNav,
-        } = navigation.state.params;
+        } = route.params;
         setPicture({
           ...picture,
           value: {
@@ -57,7 +57,7 @@ const InsertData = ({navigation}) => {
         });
       }
     },
-    [isNewPost, navigation.state.params, setPicture, setCaption, setTags],
+    [isNewPost, route.params, setPicture, setCaption, setTags],
   );
 
   const scrollViewRef = useRef(undefined);
@@ -161,7 +161,7 @@ const InsertData = ({navigation}) => {
           },
         caption: caption.value,
         tags: tags.value,
-        postId: navigation.state.params.postId,
+        postId: route.params.postId,
       });
       setSavePostStatus(config.status.success);
       createToast('Post Updated', 'LONG');
@@ -258,9 +258,5 @@ const InsertData = ({navigation}) => {
 };
 
 InsertData.propTypes = {};
-
-InsertData.navigationOptions = ({navigation}) => ({
-  title: !navigation.state.params ? 'Insert a new Record' : 'Edit',
-});
 
 export default InsertData;

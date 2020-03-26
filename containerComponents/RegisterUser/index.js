@@ -231,8 +231,4 @@ const RegisterUser = props => {
 
 RegisterUser.propTypes = {};
 
-RegisterUser.navigationOptions = {
-  title: 'Register',
-};
-
 export default RegisterUser;

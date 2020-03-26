@@ -1,23 +1,25 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
-import {withNavigation} from 'react-navigation';
+import {useNavigation} from '@react-navigation/native';
 import {getPosts as getPostsAPI} from '../../services/axios.service';
 import config from '../../config/config';
 import PostItem from '../PostItem';
 import NoPosts from '../NoPosts';
 
-const Posts = ({navigation}) => {
+const Posts = () => {
   const [posts, setPosts] = useState([]);
   // const [postsCount, setPostsCount] = useState(posts.length);
   const [getPostsStatus, setGetPostsStatus] = useState(config.status.default);
   const [emptyPostsReason, setEmptyPostsReason] = useState(config.status.default);
+
+  const navigation = useNavigation();
 
   useEffect(
     () => {
       getPosts();
       // console.log('n', navigation);
       const {remove} = navigation.addListener(
-        'willFocus',
+        'focus',
         () => {
           getPosts();
         },
@@ -78,4 +80,4 @@ Posts.propTypes = {};
 
 Posts.navigationOptions = {};
 
-export default withNavigation(Posts);
+export default Posts;

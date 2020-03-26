@@ -162,8 +162,4 @@ const SignIn = props => {
 
 SignIn.propTypes = {};
 
-SignIn.navigationOptions = {
-  headerShown: false,
-};
-
 export default SignIn;

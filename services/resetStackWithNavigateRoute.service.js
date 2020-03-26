@@ -1,9 +1,13 @@
-import {NavigationActions, StackActions} from 'react-navigation';
+import {CommonActions} from '@react-navigation/native';
 
 export default (navigationProp, navigationRouteName = 'Home') => {
-  const resetAction = StackActions.reset({
+  const resetAction = CommonActions.reset({
     index: 0,
-    actions: [NavigationActions.navigate({routeName: navigationRouteName})],
+    routes: [
+      {
+        name: navigationRouteName,
+      },
+    ],
   });
   navigationProp.dispatch(resetAction);
 }
