@@ -145,7 +145,6 @@ const InsertData = ({navigation, route}) => {
   const updatePost = async () => {
     let fullUrl = '';
     let shortName = '';
-    console.log('up picture', picture);
     try {
       if (!picture.value.pictureId) {
         const {public_id, secure_url} = await uploadImage(picture.value.data);

@@ -5,6 +5,10 @@ const apiUrl = {
   herokuDev: 'https://broadcast-rss-dev.herokuapp.com/api/v1/',
 };
 
+const modes = ['dev', 'herokudev', 'prod'];
+
+const mode = modes[0];
+
 export default {
   errorMessages: {
     requiredFieldEmpty: 'required field',
@@ -30,7 +34,11 @@ export default {
   },
   emailRegex: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   passwordRegex: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-  apiUrl: apiUrl.rnDaemon,
+  apiUrl: mode === modes[1] ?
+    apiUrl.herokuDev :
+    mode === modes[2] ?
+      '' :
+      apiUrl.rnDaemon,
   status: {
     started: 'started',
     success: 'success',
@@ -45,5 +53,6 @@ export default {
     apiSecret: '0sIXpYfKjBO9XlDvX9AnZHvOLKw',
     secureDeliveryURL: 'https://res.cloudinary.com/harshdeep-singh/image/upload/',
     apiURL: 'https://api.cloudinary.com/v1_1/harshdeep-singh/image/upload/',
+    uploadPreset: `pixeliano_preset_${mode}`,
   },
 };

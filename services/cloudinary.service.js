@@ -17,7 +17,7 @@ export const uploadImage = async (
       url: `${config.cloudinary.apiURL}`,
       data: {
         file: imageData,
-        upload_preset: 'l9tt1r43',
+        upload_preset: config.cloudinary.uploadPreset,
       },
       transformRequest: (data, headers) =>
         qs.stringify(data),
