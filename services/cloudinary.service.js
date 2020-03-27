@@ -14,7 +14,7 @@ export const uploadImage = async (
   try {
     const {data} = await axios({
       method: 'POST',
-      url: `${config.cloudinary.apiURL}`,
+      url: `${config.cloudinary.apiURL}image/upload/`,
       data: {
         file: imageData,
         upload_preset: config.cloudinary.uploadPreset,
