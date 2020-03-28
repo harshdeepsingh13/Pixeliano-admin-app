@@ -43,7 +43,7 @@ const InputText = React.forwardRef(
       handleOnSubmitEditing,
       multiline,
       numberOfLines,
-      onFocus,
+      handleFocus,
     } = props;
     const textInputStylesArr = [
       style.field,
@@ -77,6 +77,9 @@ const InputText = React.forwardRef(
     /*  const inputOnFocus = () => setBorderBottomColor(theme.light.primary);*/
     const inputOnBlur = () => {
       handleBlur();
+    };
+    const inputOnFocus = () => {
+      handleFocus();
     };
     const handleChange = ({
                             nativeEvent: {
@@ -143,7 +146,8 @@ const InputText = React.forwardRef(
             scrollEnabled={multiline}
             onChange={handleChange}
             onSubmitEditing={inputOnSubmitEditing}
-            onFocus={onFocus}
+            onFocus={inputOnFocus}
+            onBlur={inputOnBlur}
           />
           {
             secureTextEntry && canBeVisible &&
@@ -275,7 +279,7 @@ InputText.propTypes = {
   toSubmitOnReturnKey: PropTypes.bool,
   multiline: PropTypes.bool,
   numberOfLines: PropTypes.number,
-  onFocus: PropTypes.func,
+  handleFocus: PropTypes.func,
 };
 
 InputText.defaultProps = {
@@ -307,7 +311,7 @@ InputText.defaultProps = {
   toSubmitOnReturnKey: false,
   multiline: false,
   numberOfLines: 4,
-  onFocus: () => console.log('input text onFocus'),
+  handleFocus: () => console.log('input text handleFocus'),
 };
 
 InputText.navigationOptions = {};
