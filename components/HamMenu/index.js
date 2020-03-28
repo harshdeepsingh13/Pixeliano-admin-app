@@ -30,6 +30,7 @@ const HamMenu = ({
           menus.map(({
                        text,
                        handleClick,
+                       disabled = false,
                      }, index) => (
             <MenuOption
               key={index}
@@ -38,6 +39,7 @@ const HamMenu = ({
                 handleClick();
               }}
               menuText={text}
+              disabled={disabled}
             />
           ))
         }

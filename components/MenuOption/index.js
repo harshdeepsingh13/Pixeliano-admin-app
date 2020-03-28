@@ -2,17 +2,18 @@ import React from 'react';
 import {View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
-import Button from '../BasicUIElements/Button';
 import {MenuItem} from 'react-native-material-menu';
 
 const MenuOption = ({
                       menuText,
                       menuHandleClick,
+                      disabled,
                     }) => {
   return (
     <View style={style.menuOptionsContainer}>
       <MenuItem
         onPress={menuHandleClick}
+        disabled={disabled}
       >
         {
           menuText
@@ -25,6 +26,11 @@ const MenuOption = ({
 MenuOption.propTypes = {
   menuText: PropTypes.string.isRequired,
   menuHandleClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+MenuOption.defaultProps = {
+  disabled: false,
 };
 
 MenuOption.navigationOptions = {};
