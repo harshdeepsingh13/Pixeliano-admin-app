@@ -3,7 +3,7 @@ import theme from '../../../config/theme';
 
 export default StyleSheet.create({
   imagePickerContainer: (showSelector) => ({
-    aspectRatio: 1.5,
+    aspectRatio: 1,
     backgroundColor: theme.backgroundAndBorders.greyDark,
     flexDirection: 'row',
     justifyContent: 'center',

@@ -32,7 +32,7 @@ const ImageSelector = ({
       {
         whatToShow.showImage &&
         <Image
-          source={{uri: image}} style={{aspectRatio: 1.5}}
+          source={{uri: image}} style={{aspectRatio: 1}}
         />
       }
     </TouchableOpacity>
