@@ -11,8 +11,10 @@ export default StyleSheet.create({
     paddingTop: 10,
   },
   headerContainer: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   headerWithImageColor: {
     color: 'white',
@@ -30,7 +32,7 @@ export default StyleSheet.create({
     // marginBottom: 6,
   },
   imageContainer: {
-    aspectRatio: 1.5,
+    aspectRatio: 1,
     // opacity: 0.9,
   },
 });

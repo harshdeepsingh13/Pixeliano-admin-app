@@ -8,6 +8,9 @@ import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {getCloudinaryImageUrl} from '../../services/cloudinary.service';
 import assets from '../../config/assets';
+import {deleteItem} from '../../services/asyncStorage.service';
+import resetStackWithNavigateRoute from '../../services/resetStackWithNavigateRoute.service';
+import HamMenu from '../HamMenu';
 
 library.add(faArrowLeft);
 
@@ -32,28 +35,45 @@ const HeaderWithImage = ({
 
   return (
     <ImageBackground
-      source={assets.logo.full.color}
-      style={{width: '100%', aspectRatio: 1.5}}
+      source={assets.logo.full.grey}
+      style={{width: '100%', aspectRatio: 1}}
     >
-    <ImageBackground
-      source={{uri: getImageUrl()}}
-      style={[style.headerWithImageContainer, style.imageContainer]}
-    >
-      <View style={style.headerContainer}>
-        <TouchableNativeFeedback
-          useForeground={true}
-          background={TouchableNativeFeedback.Ripple('', true)}
-          onPress={() => navigation.goBack()}>
-          <View style={style.backButton}>
-            <FontAwesomeIcon
-              icon={'arrow-left'}
-              style={{...style.headerWithImageColor}}
-              size={20}
+      <ImageBackground
+        source={{uri: getImageUrl()}}
+        style={[style.headerWithImageContainer, style.imageContainer]}
+      >
+        <View style={style.headerContainer}>
+          <TouchableNativeFeedback
+            useForeground={true}
+            background={TouchableNativeFeedback.Ripple('', true)}
+            onPress={() => navigation.goBack()}>
+            <View style={style.backButton}>
+              <FontAwesomeIcon
+                icon={'arrow-left'}
+                style={{...style.headerWithImageColor}}
+                size={20}
+              />
+            </View>
+          </TouchableNativeFeedback>
+          <View>
+            <HamMenu
+              buttonColor={'white'}
+              menus={[
+                {
+                  text: 'Delete Post',
+                  handleClick: () => {
+                    (async () => {
+                        await deleteItem();
+                        resetStackWithNavigateRoute(navigation, 'SignIn');
+                      }
+                    )();
+                  },
+                },
+              ]}
             />
           </View>
-        </TouchableNativeFeedback>
-      </View>
-    </ImageBackground>
+        </View>
+      </ImageBackground>
     </ImageBackground>
   );
 };
