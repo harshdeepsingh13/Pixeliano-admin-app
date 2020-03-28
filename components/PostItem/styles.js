@@ -3,8 +3,8 @@ import theme from '../../config/theme';
 
 export default StyleSheet.create({
   postItemContainer: {
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   captionPictureContainer: {
     flexDirection: 'row',
