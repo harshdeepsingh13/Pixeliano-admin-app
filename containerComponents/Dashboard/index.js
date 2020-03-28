@@ -3,7 +3,6 @@ import {View} from 'react-native';
 import config from '../../config/config';
 import {deleteItem, getToken} from '../../services/asyncStorage.service';
 import resetStackWithNavigateRoute from '../../services/resetStackWithNavigateRoute.service';
-import HamMenu from '../../components/HamMenu';
 import FloatingButton from '../../components/BasicUIElements/FloatingButton';
 import Posts from '../../components/Posts';
 
