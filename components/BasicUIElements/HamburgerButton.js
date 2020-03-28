@@ -10,12 +10,11 @@ import theme from '../../config/theme';
 library.add(faEllipsisV);
 
 const HamburgerButton = ({
-                     color,
-                     handleOnClick: handleOnClickFromProps,
-                   }) => {
+                           color,
+                           handleOnClick: handleOnClickFromProps,
+                         }) => {
 
   const onHamburgerPress = () => {
-    console.log('clicnk')
     handleOnClickFromProps();
   };
 
