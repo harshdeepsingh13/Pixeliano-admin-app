@@ -31,6 +31,7 @@ const InsertData = ({navigation, route}) => {
     inputValue: '',
   });
   const [savePostStatus, setSavePostStatus] = useState(config.status.default);
+  const [isParentScrollEnabled, setIsParentScrollEnabled] = useState(true);
 
   useEffect(
     () => {
@@ -80,7 +81,7 @@ const InsertData = ({navigation, route}) => {
     name === 'caption' && setCaption({...caption, value});
     name === 'tags' && setTags(prevTags => ({...prevTags, inputValue: value}));
 
-    if (name === 'tags' && tags.inputValue.length === 2) {
+    if (name === 'tags') {
       scrollViewRef.current.scrollToEnd();
     }
   };
@@ -178,6 +179,7 @@ const InsertData = ({navigation, route}) => {
       ref={scrollViewRef}
       keyboardShouldPersistTaps={'always'}
       keyboardDismissMode={'on-drag'}
+      scrollEnabled={isParentScrollEnabled}
     >
       <ImageSelector
         title={'Select an Image'}
@@ -229,6 +231,11 @@ const InsertData = ({navigation, route}) => {
               value={inputValue}
               iconName={'hashtag'}
               handleChange={handleChange}
+              handleFocus={() => setIsParentScrollEnabled(false)}
+              handleBlur={() => {
+                setTags({...tags, inputValue: ''});
+                setIsParentScrollEnabled(true);
+              }}
             />
           )
         }
@@ -248,7 +255,10 @@ const InsertData = ({navigation, route}) => {
       />
       <Button
         text={isNewPost ? 'Save Record' : 'Update Record'}
-        handleClick={() => {setSavePostStatus(config.status.started); handlePostSubmit();}}
+        handleClick={() => {
+          setSavePostStatus(config.status.started);
+          handlePostSubmit();
+        }}
         showActivityIndicator={savePostStatus === config.status.started}
       />
     </ScrollView>
