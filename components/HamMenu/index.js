@@ -50,7 +50,11 @@ const HamMenu = ({
 
 HamMenu.propTypes = {
   buttonColor: PropTypes.string,
-  menus: PropTypes.array,
+  menus: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string,
+    handleClick: PropTypes.func,
+    disabled: PropTypes.bool,
+  })),
 };
 
 HamMenu.defaultProps = {
