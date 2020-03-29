@@ -8,8 +8,6 @@ import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {getCloudinaryImageUrl} from '../../services/cloudinary.service';
 import assets from '../../config/assets';
-import {deleteItem} from '../../services/asyncStorage.service';
-import resetStackWithNavigateRoute from '../../services/resetStackWithNavigateRoute.service';
 import HamMenu from '../HamMenu';
 
 library.add(faArrowLeft);
@@ -17,6 +15,8 @@ library.add(faArrowLeft);
 const HeaderWithImage = ({
                            imageProvider,
                            imageShortName,
+                           isOptionsMenu,
+                           menus,
                          }) => {
 
   const navigation = useNavigation();
@@ -55,23 +55,13 @@ const HeaderWithImage = ({
               />
             </View>
           </TouchableNativeFeedback>
-          <View>
+          {
+            isOptionsMenu &&
             <HamMenu
               buttonColor={'white'}
-              menus={[
-                {
-                  text: 'Delete Post',
-                  handleClick: () => {
-                    (async () => {
-                        await deleteItem();
-                        resetStackWithNavigateRoute(navigation, 'SignIn');
-                      }
-                    )();
-                  },
-                },
-              ]}
+              menus={menus}
             />
-          </View>
+          }
         </View>
       </ImageBackground>
     </ImageBackground>
@@ -81,8 +71,17 @@ const HeaderWithImage = ({
 HeaderWithImage.propTypes = {
   imageProvider: PropTypes.string,
   imageShortName: PropTypes.string,
+  isOptionsMenu: PropTypes.bool,
+  menus: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string,
+    handleClick: PropTypes.func,
+    disabled: PropTypes.bool,
+  })),
 };
 
-HeaderWithImage.navigationOptions = {};
+HeaderWithImage.defaultProps = {
+  isOptionsMenu: false,
+  menus: [],
+};
 
 export default HeaderWithImage;
