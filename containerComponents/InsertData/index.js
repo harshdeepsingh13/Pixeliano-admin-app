@@ -112,7 +112,10 @@ const InsertData = ({navigation, route}) => {
   const tagAutoComplete = async () => {
     try {
       const {data: {data}} = await getTagsSuggestion(tags.inputValue);
-      return data.tags.map(tag => ({value: tag.tag, itemId: tag.tagId}));
+      const localTags = tags.value.filter(localTag => !!localTag.tagId);
+      return data.tags
+        .filter(tag => localTags.findIndex(localTag => localTag.tagId === tag.tagId) === -1)
+        .map(tag => ({value: tag.tag, itemId: tag.tagId}));
     } catch (e) {
       console.log('error in tags autocomplete', e);
       throw e;
