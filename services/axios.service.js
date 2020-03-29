@@ -76,3 +76,9 @@ exports.getPosts = () =>
     method: 'GET',
     url: `${config.apiUrl}post/getAllPosts`,
   });
+
+exports.deletePost = (postId) =>
+  axiosInstance({
+    method: 'DELETE',
+    url: `${config.apiUrl}post/record/${postId}`,
+  });
