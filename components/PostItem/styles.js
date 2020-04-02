@@ -13,12 +13,14 @@ export default StyleSheet.create({
   },
   caption: {
     paddingTop: 5,
+    paddingRight: 5,
     fontSize: 17,
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   picture: {
+    borderRadius: 4,
     width: 75,
     aspectRatio: 1,
     // height: 100
