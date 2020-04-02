@@ -9,6 +9,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {getCloudinaryImageUrl} from '../../services/cloudinary.service';
 import assets from '../../config/assets';
 import HamMenu from '../HamMenu';
+import theme from '../../config/theme';
 
 library.add(faArrowLeft);
 
@@ -36,7 +37,7 @@ const HeaderWithImage = ({
   return (
     <ImageBackground
       source={assets.logo.full.grey}
-      style={{width: '100%', aspectRatio: 1}}
+      style={{width: '100%', aspectRatio: 1, backgroundColor: theme.backgroundAndBorders.greyLight}}
     >
       <ImageBackground
         source={{uri: getImageUrl()}}
