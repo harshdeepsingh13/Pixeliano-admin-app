@@ -3,6 +3,7 @@ const apiUrl = {
   rnDaemon: 'http://10.0.2.2:8080/api/v1/',
   officeLocalHostIP: 'http://10.1.212.207:8080/api/v1/',
   herokuDev: 'https://broadcast-rss-dev.herokuapp.com/api/v1/',
+  herokuProd: 'https://broadcast-rss.herokuapp.com/api/v1/',
 };
 
 const modes = ['dev', 'herokudev', 'prod'];
@@ -37,8 +38,8 @@ export default {
   apiUrl: mode === modes[1] ?
     apiUrl.herokuDev :
     mode === modes[2] ?
-      '' :
-      apiUrl.rnDaemon,
+      apiUrl.herokuProd :
+      apiUrl.homeLocalHostIP,
   status: {
     started: 'started',
     success: 'success',
