@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {getPosts as getPostsAPI} from '../../services/axios.service';
+import {getPosts as getPostsAPI, getPostsCount} from '../../services/axios.service';
 import config from '../../config/config';
 import PostItem from '../PostItem';
 import NoPosts from '../NoPosts';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-  // const [postsCount, setPostsCount] = useState(posts.length);
+  const [postsCount, setPostsCount] = useState(posts.length);
   const [getPostsStatus, setGetPostsStatus] = useState(config.status.default);
   const [emptyPostsReason, setEmptyPostsReason] = useState(config.status.default);
 
@@ -34,12 +34,18 @@ const Posts = () => {
       (async () => {
         try {
           setGetPostsStatus(config.status.started);
-          const {data: {data: {posts: postsFromAPI, totalPosts}}} = await getPostsAPI();
-          setPosts([...postsFromAPI]);
-          if (!totalPosts) {
-            setEmptyPostsReason('no_post');
+          const {data: {data: {postCount: postCountFromApi}}} = await getPostsCount();
+          if (postCountFromApi !== postsCount) {
+            const {data: {data: {posts: postsFromAPI, totalPosts}}} = await getPostsAPI();
+            setPostsCount(totalPosts);
+            setPosts([...postsFromAPI]);
+            if (!totalPosts) {
+              setEmptyPostsReason('no_post');
+            }
+            setGetPostsStatus(config.status.success);
+          } else {
+            setGetPostsStatus(config.status.success);
           }
-          setGetPostsStatus(config.status.success);
         } catch (e) {
           console.log('e', e);
           if (e.isAxiosError && e.message === 'Network Error') {
@@ -50,7 +56,12 @@ const Posts = () => {
         }
       })();
     },
-    [],
+    [
+      setPosts,
+      setPostsCount,
+      setGetPostsStatus,
+      setEmptyPostsReason,
+    ],
   );
 
   return (
