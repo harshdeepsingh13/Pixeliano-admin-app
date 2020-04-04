@@ -82,3 +82,9 @@ exports.deletePost = (postId) =>
     method: 'DELETE',
     url: `${config.apiUrl}post/record/${postId}`,
   });
+
+exports.getPostsCount = () =>
+  axiosInstance({
+    method: "GET",
+    url: `${config.apiUrl}post/getPostCount`
+  });
