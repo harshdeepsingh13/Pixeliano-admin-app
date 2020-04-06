@@ -10,6 +10,7 @@ import Button from '../../components/BasicUIElements/Button';
 import {getCloudinaryImageUrl, uploadImage} from '../../services/cloudinary.service';
 import config from '../../config/config';
 import createToast from '../../services/createToast.service';
+import Error from '../../components/Error';
 
 const InsertData = ({navigation, route}) => {
   const isNewPost = useMemo(
@@ -138,11 +139,15 @@ const InsertData = ({navigation, route}) => {
         caption: caption.value,
         tags: tags.value,
       });
-      setSavePostStatus(config.status.success);
+      setSavePostStatus({...savePostStatus, status: config.status.success});
       createToast('New Post Saved', 'LONG');
       navigation.goBack();
     } catch (e) {
-      setSavePostStatus(config.status.failed);
+      if (e.isCloudinaryError) {
+        setSavePostStatus({...savePostStatus, status: config.status.failed, message: e.message});
+      } else {
+        setSavePostStatus({...savePostStatus, status: config.status.failed});
+      }
       console.log('new post error', e);
     }
   };
@@ -166,113 +171,126 @@ const InsertData = ({navigation, route}) => {
         tags: tags.value,
         postId: route.params.postId,
       });
-      setSavePostStatus(config.status.success);
+      setSavePostStatus({...savePostStatus, status: config.status.success});
       createToast('Post Updated', 'LONG');
       navigation.goBack();
     } catch (e) {
-      setSavePostStatus(config.status.failed);
+      if (e.isCloudinaryError) {
+        setSavePostStatus({...savePostStatus, status: config.status.failed, message: e.message});
+      } else {
+        setSavePostStatus({...savePostStatus, status: config.status.failed});
+      }
       console.log('update post error', e);
     }
   };
 
   return (
     // <KeyboardAvoidingView behavior={'height'}>
-    <ScrollView
-      nestedScrollEnabled={true}
-      ref={scrollViewRef}
-      keyboardShouldPersistTaps={'always'}
-      keyboardDismissMode={'on-drag'}
-      scrollEnabled={isParentScrollEnabled}
-    >
-      <ImageSelector
-        title={'Select an Image'}
-        callback={getImage}
-        image={picture.value ? `${picture.value.data}` : ''}
-        whatToShow={
-          useMemo(
-            () => ({
-              showSelector: !picture.value,
-              showImage: !!picture.value,
-            }),
-            [picture.value],
-          )
-        }
-      />
-      {/*  {
+    <>
+      {
+        savePostStatus.status === config.status.failed &&
+        <Error
+          errorType={'displayError'}
+          message={savePostStatus.message}
+        />
+      }
+      <ScrollView
+        nestedScrollEnabled={true}
+        ref={scrollViewRef}
+        keyboardShouldPersistTaps={'always'}
+        keyboardDismissMode={'on-drag'}
+        scrollEnabled={isParentScrollEnabled}
+      >
+        <ImageSelector
+          title={'Select an Image'}
+          callback={getImage}
+          image={picture.value ? `${picture.value.data}` : ''}
+          whatToShow={
+            useMemo(
+              () => ({
+                showSelector: !picture.value,
+                showImage: !!picture.value,
+              }),
+              [picture.value],
+            )
+          }
+        />
+        {/*  {
         picture.value &&
         <Image source={{uri: picture.value.data}} style={{aspectRatio: 1, resizeMode: 'contain'}}/>
       }*/}
-      <TagsContainer>
-        {
-          useMemo(
-            () => (
-              tags.value.map(({tag, tagId}, index) =>
-                (
-                  <Tag
-                    key={tagId ? tagId : Math.floor((Math.random() * 10000) + 1)}
-                    tagId={index}
-                    tagText={tag}
-                    onClose={removeTag}
-                  />
-                ))
-            ),
-            [tags.value],
-          )
-        }
-      </TagsContainer>
-      <AutoComplete
-        inputValue={tags.inputValue}
-        autoCompleteService={tagAutoComplete}
-        itemSelectCallback={addTag}
-      >
-        {
-          inputValue => (
-            <InputText
-              name={'tags'}
-              id={'tags'}
-              placeholder={'Tags'}
-              value={inputValue}
-              iconName={'hashtag'}
-              handleChange={handleChange}
-              handleFocus={() => setIsParentScrollEnabled(false)}
-              handleBlur={() => {
-                setTags({...tags, inputValue: ''});
-                setIsParentScrollEnabled(true);
-              }}
-            />
-          )
-        }
-      </AutoComplete>
-      <InputText
-        name={'caption'}
-        id={'caption'}
-        capitalize={'sentences'}
-        iconName={'closed-captioning'}
-        placeholder={'Caption'}
-        multiline={true}
-        value={caption.value}
-        numberOfLines={10}
-        returnKeyType={'none'}
-        handleChange={handleChange}
-        styles={{fontSize: 16}}
-      />
-      <Button
-        text={isNewPost ? 'Save Record' : 'Update Record'}
-        handleClick={() => {
-          setSavePostStatus(config.status.started);
-          handlePostSubmit();
-        }}
-        showActivityIndicator={savePostStatus === config.status.started}
-        styles={
+        <TagsContainer>
           {
-            width: '90%',
-            flexDirection: 'column',
-            alignSelf: 'center',
-            padding: 15
+            useMemo(
+              () => (
+                tags.value.map(({tag, tagId}, index) =>
+                  (
+                    <Tag
+                      key={tagId ? tagId : Math.floor((Math.random() * 10000) + 1)}
+                      tagId={index}
+                      tagText={tag}
+                      onClose={removeTag}
+                    />
+                  ))
+              ),
+              [tags.value],
+            )
           }
-        }
-      />
-    </ScrollView>
+        </TagsContainer>
+        <AutoComplete
+          inputValue={tags.inputValue}
+          autoCompleteService={tagAutoComplete}
+          itemSelectCallback={addTag}
+        >
+          {
+            inputValue => (
+              <InputText
+                name={'tags'}
+                id={'tags'}
+                placeholder={'Tags'}
+                value={inputValue}
+                iconName={'hashtag'}
+                handleChange={handleChange}
+                handleFocus={() => setIsParentScrollEnabled(false)}
+                handleBlur={() => {
+                  setTags({...tags, inputValue: ''});
+                  setIsParentScrollEnabled(true);
+                }}
+              />
+            )
+          }
+        </AutoComplete>
+        <InputText
+          name={'caption'}
+          id={'caption'}
+          capitalize={'sentences'}
+          iconName={'closed-captioning'}
+          placeholder={'Caption'}
+          multiline={true}
+          value={caption.value}
+          numberOfLines={10}
+          returnKeyType={'none'}
+          handleChange={handleChange}
+          styles={{fontSize: 16}}
+        />
+        <Button
+          text={isNewPost ? 'Save Record' : 'Update Record'}
+          handleClick={() => {
+            setSavePostStatus({...savePostStatus, status: config.status.started});
+            handlePostSubmit();
+          }}
+          showActivityIndicator={savePostStatus.status === config.status.started}
+          styles={
+            {
+              width: '90%',
+              flexDirection: 'column',
+              alignSelf: 'center',
+              padding: 15,
+            }
+          }
+        />
+      </ScrollView>
+    </>
     // </KeyboardAvoidingView>
   );
 };

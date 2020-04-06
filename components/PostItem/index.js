@@ -35,7 +35,7 @@ const PostItem = ({
   return (
     <View style={style.postItemContainer}>
       <TouchableNativeFeedback
-        onPress={() => navigation.navigate('ViewPost', {
+        onPress={() => navigation.push('ViewPost', {
           caption,
           picture,
           postId,

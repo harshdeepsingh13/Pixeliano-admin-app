@@ -25,7 +25,10 @@ export const uploadImage = async (
     return data;
   } catch (e) {
     console.log('eee', e.response.data);
-    throw e;
+    throw {
+      isCloudinaryError: true,
+      message: 'Resource is larger than 10MB',
+    };
   }
 };
 
