@@ -8,26 +8,11 @@ import NoPosts from '../NoPosts';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-  const [postsCount, setPostsCount] = useState(posts.length);
+  const [postsCount, setPostsCount] = useState(0);
   const [getPostsStatus, setGetPostsStatus] = useState(config.status.default);
   const [emptyPostsReason, setEmptyPostsReason] = useState(config.status.default);
 
   const navigation = useNavigation();
-
-  useEffect(
-    () => {
-      getPosts();
-      // console.log('n', navigation);
-      const {remove} = navigation.addListener(
-        'focus',
-        () => {
-          getPosts();
-        },
-      );
-      return remove;
-    },
-    [],
-  );
 
   const getPosts = useCallback(
     () => {
@@ -47,7 +32,6 @@ const Posts = () => {
             setGetPostsStatus(config.status.success);
           }
         } catch (e) {
-          console.log('e', e);
           if (e.isAxiosError && e.message === 'Network Error') {
             setPosts([]);
             setEmptyPostsReason('network_error');
@@ -57,11 +41,26 @@ const Posts = () => {
       })();
     },
     [
+      postsCount,
       setPosts,
       setPostsCount,
       setGetPostsStatus,
       setEmptyPostsReason,
     ],
+  );
+
+  useEffect(
+    () => {
+      // getPosts();
+      const remove = navigation.addListener(
+        'focus',
+        () => {
+          getPosts();
+        },
+      );
+      return remove;
+    },
+    [getPosts],
   );
 
   return (
@@ -91,4 +90,4 @@ Posts.propTypes = {};
 
 Posts.navigationOptions = {};
 
-export default Posts;
+export default React.memo(Posts);
