@@ -263,6 +263,14 @@ const InsertData = ({navigation, route}) => {
           handlePostSubmit();
         }}
         showActivityIndicator={savePostStatus === config.status.started}
+        styles={
+          {
+            width: '90%',
+            flexDirection: 'column',
+            alignSelf: 'center',
+            padding: 15
+          }
+        }
       />
     </ScrollView>
     // </KeyboardAvoidingView>
