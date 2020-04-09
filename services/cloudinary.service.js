@@ -1,6 +1,5 @@
-import axios from 'axios';
+import {axiosCloudinarySignatureInstance} from './axiosInstance.service';
 import config from '../config/config';
-import qs from 'qs';
 
 const transformationsMapping = {
   width: 'w',
@@ -12,15 +11,13 @@ export const uploadImage = async (
   imageData,
 ) => {
   try {
-    const {data} = await axios({
+    const {data} = await axiosCloudinarySignatureInstance({
       method: 'POST',
       url: `${config.cloudinary.apiURL}image/upload/`,
       data: {
         file: imageData,
         upload_preset: config.cloudinary.uploadPreset,
       },
-      transformRequest: (data, headers) =>
-        qs.stringify(data),
     });
     return data;
   } catch (e) {
