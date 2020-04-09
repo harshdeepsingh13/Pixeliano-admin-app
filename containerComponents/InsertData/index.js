@@ -173,6 +173,7 @@ const InsertData = ({navigation, route}) => {
       });
       setSavePostStatus({...savePostStatus, status: config.status.success});
       createToast('Post Updated', 'LONG');
+      route.params.whenPostUpdates()
       navigation.goBack();
     } catch (e) {
       if (e.isCloudinaryError) {

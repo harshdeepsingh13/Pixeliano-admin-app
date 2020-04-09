@@ -11,6 +11,7 @@ const PostItem = ({
                     picture,
                     postId,
                     tags,
+                    whenPostUpdates,
                   }) => {
 
   const navigation = useNavigation();
@@ -35,12 +36,15 @@ const PostItem = ({
   return (
     <View style={style.postItemContainer}>
       <TouchableNativeFeedback
-        onPress={() => navigation.push('ViewPost', {
-          caption,
-          picture,
-          postId,
-          tags,
-        })}
+        onPress={() => {
+          navigation.push('ViewPost', {
+            caption,
+            picture,
+            postId,
+            tags,
+            whenPostUpdates,
+          });
+        }}
       >
         <View>
           <View style={style.captionPictureContainer}>
@@ -88,6 +92,7 @@ PostItem.propTypes = {
   }),
   postId: PropTypes.string,
   tags: PropTypes.array,
+  whenPostUpdates: PropTypes.func,
 };
 
 PostItem.navigationOptions = {};

@@ -8,6 +8,7 @@ import NoPosts from '../NoPosts';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
+  const [didAnyPostUpdate, setDidAnyPostUpdate] = useState(false);
   const [postsCount, setPostsCount] = useState(0);
   const [getPostsStatus, setGetPostsStatus] = useState(config.status.default);
   const [emptyPostsReason, setEmptyPostsReason] = useState(config.status.default);
@@ -20,7 +21,7 @@ const Posts = () => {
         try {
           setGetPostsStatus(config.status.started);
           const {data: {data: {postCount: postCountFromApi}}} = await getPostsCount();
-          if (postCountFromApi !== postsCount) {
+          if (postCountFromApi !== postsCount || didAnyPostUpdate) {
             const {data: {data: {posts: postsFromAPI, totalPosts}}} = await getPostsAPI();
             setPostsCount(totalPosts);
             setPosts([...postsFromAPI]);
@@ -28,6 +29,7 @@ const Posts = () => {
               setEmptyPostsReason('no_post');
             }
             setGetPostsStatus(config.status.success);
+            setDidAnyPostUpdate(false);
           } else {
             setGetPostsStatus(config.status.success);
           }
@@ -42,6 +44,8 @@ const Posts = () => {
     },
     [
       postsCount,
+      didAnyPostUpdate,
+      setDidAnyPostUpdate,
       setPosts,
       setPostsCount,
       setGetPostsStatus,
@@ -52,13 +56,12 @@ const Posts = () => {
   useEffect(
     () => {
       // getPosts();
-      const remove = navigation.addListener(
+      return navigation.addListener(
         'focus',
         () => {
           getPosts();
         },
       );
-      return remove;
     },
     [getPosts],
   );
@@ -76,6 +79,7 @@ const Posts = () => {
           pictureId: item.picture.pictureId,
         }}
         tags={item.tags}
+        whenPostUpdates={() => setDidAnyPostUpdate(true)}
         postId={item.postId}
       />}
       keyExtractor={(item) => item.postId}

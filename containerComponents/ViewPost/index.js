@@ -26,6 +26,7 @@ const ViewPost = ({
     picture,
     postId,
     tags,
+    whenPostUpdates
   } = route.params;
 
   useEffect(
@@ -130,6 +131,7 @@ const ViewPost = ({
           picture,
           postId,
           tags,
+          whenPostUpdates
         })}
       />
     </View>
