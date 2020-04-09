@@ -10,6 +10,22 @@ const modes = ['dev', 'herokudev', 'prod'];
 
 const mode = modes[0];
 
+const getAPIUrl = mode => {
+  switch (mode) {
+    case modes[0]:
+      return apiUrl.homeLocalHostIP;
+
+    case modes[1]:
+      return apiUrl.herokuDev;
+
+    case modes[2]:
+      return apiUrl.herokuProd;
+
+    default:
+      return '';
+  }
+};
+
 export default {
   errorMessages: {
     requiredFieldEmpty: 'required field',
@@ -35,11 +51,7 @@ export default {
   },
   emailRegex: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   passwordRegex: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-  apiUrl: mode === modes[1] ?
-    apiUrl.herokuDev :
-    mode === modes[2] ?
-      apiUrl.herokuProd :
-      apiUrl.homeLocalHostIP,
+  apiUrl: getAPIUrl(mode),
   status: {
     started: 'started',
     success: 'success',
