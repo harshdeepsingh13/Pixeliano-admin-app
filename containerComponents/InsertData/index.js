@@ -11,11 +11,12 @@ import {getCloudinaryImageUrl, uploadImage} from '../../services/cloudinary.serv
 import config from '../../config/config';
 import createToast from '../../services/createToast.service';
 import Error from '../../components/Error';
+import fs from 'react-native-fs';
 
 const InsertData = ({navigation, route}) => {
   const isNewPost = useMemo(
     () => (
-      !route.params
+      !(route.params && Object.keys(route.params).length && !route.params.isNew)
     ),
     []);
   // console.log('na', navigation.state, navigation.state.params, 'isNew', isNewPost);
@@ -33,6 +34,18 @@ const InsertData = ({navigation, route}) => {
   });
   const [savePostStatus, setSavePostStatus] = useState(config.status.default);
   const [isParentScrollEnabled, setIsParentScrollEnabled] = useState(true);
+
+  useEffect(
+    () => {
+      if (isNewPost && route.params.image) {
+        (async () => {
+          const image = await fs.readFile(route.params.image, 'base64');
+          setPicture(prev => ({...prev, value: {data: `data:image/*;base64,${image}`}}));
+        })();
+      }
+    },
+    [isNewPost, route.params, setPicture],
+  );
 
   useEffect(
     () => {
@@ -173,7 +186,7 @@ const InsertData = ({navigation, route}) => {
       });
       setSavePostStatus({...savePostStatus, status: config.status.success});
       createToast('Post Updated', 'LONG');
-      route.params.whenPostUpdates()
+      route.params.whenPostUpdates();
       navigation.goBack();
     } catch (e) {
       if (e.isCloudinaryError) {

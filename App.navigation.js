@@ -13,7 +13,7 @@ import resetStackWithNavigateRoute from './services/resetStackWithNavigateRoute.
 
 const Stack = createStackNavigator();
 
-export default App => () => {
+export default App => (initialProps) => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -32,8 +32,14 @@ export default App => () => {
       >
         <Stack.Screen
           name={'Home'}
-          component={App}
-        />
+        >
+          {
+            (props) => <App
+              initialProps={initialProps}
+              {...props}
+            />
+          }
+        </Stack.Screen>
         <Stack.Screen
           name={'SignIn'}
           component={SignIn}
@@ -78,7 +84,7 @@ export default App => () => {
           name={'InsertData'}
           component={InsertData}
           options={({route}) => ({
-            title: !route.params ? 'Insert a new Record' : 'Edit',
+            title: !(route.params && Object.keys(route.params).length && !route.params.isNew) ? 'Insert a new Record' : 'Edit',
           })}
         />
         <Stack.Screen

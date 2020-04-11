@@ -26,7 +26,7 @@ const Dashboard = props => {
   return (
     <View style={{height: '100%'}}>
       <Posts/>
-      <FloatingButton handleOnClick={() => props.navigation.navigate('InsertData')}/>
+      <FloatingButton handleOnClick={() => props.navigation.navigate('InsertData', {isNew: true})}/>
     </View>
   );
 };

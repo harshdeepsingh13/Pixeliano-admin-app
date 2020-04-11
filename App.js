@@ -20,7 +20,18 @@ const App = props => {
         // props.navigation.navigate('Home');
         if (token) {
           // props.navigation.push('Home');
-          resetStackWithNavigateRoute(props.navigation, 'Dashboard');
+          resetStackWithNavigateRoute(
+            props.navigation,
+            props.initialProps.image.length ?
+              ['InsertData'] :
+              ['Dashboard'],
+            props.initialProps.image.length ?
+              [{
+                isNew: true,
+                image: props.initialProps.image,
+              }] :
+              [{}],
+          );
         } else {
           // props.navigation.navigate('SignIn');
           resetStackWithNavigateRoute(props.navigation, 'SignIn');

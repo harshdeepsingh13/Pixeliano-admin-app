@@ -131,6 +131,7 @@ const ViewPost = ({
           picture,
           postId,
           tags,
+          isNew: false,
           whenPostUpdates
         })}
       />
