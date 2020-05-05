@@ -15,3 +15,8 @@ export const deleteItem = async (storageKey = config.storageKey.userDetails) => 
   await AsyncStorage.setItem(storageKey, JSON.stringify({}));
   return 'done';
 };
+
+export const getUserId = async () => {
+  const item = await AsyncStorage.getItem(config.storageKey.userDetails);
+  return (item && JSON.parse(item).userId) ? JSON.parse(item).userId : undefined;
+};
