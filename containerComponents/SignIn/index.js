@@ -56,8 +56,9 @@ const SignIn = props => {
           email: userData.email,
           name: userData.name,
           token: userData.token,
+          userId: userData.userId
         });
-        resetStackWithNavigationRoute(props.navigation, 'Dashboard');
+        resetStackWithNavigationRoute(props.navigation, ['Dashboard']);
       } catch (e) {
         console.log('e', Object.keys(e), e.isAxiosError);
         if (e.isAxiosError && e.response) {

@@ -16,7 +16,7 @@ const Dashboard = props => {
         if (!token) {
           // props.navigation.push('Home');
           await deleteItem(config.storageKey.userDetails);
-          resetStackWithNavigateRoute(props.navigation, 'SignIn');
+          resetStackWithNavigateRoute(props.navigation, ['SignIn']);
         }
       })();
     },

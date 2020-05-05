@@ -16,7 +16,7 @@ const App = props => {
       StatusBar.setBackgroundColor(theme.light.primaryDark);
       StatusBar.setBarStyle('light-content');
       (async () => {
-        const token = getToken();
+        const token = await getToken();
         // props.navigation.navigate('Home');
         if (token) {
           // props.navigation.push('Home');
@@ -34,7 +34,7 @@ const App = props => {
           );
         } else {
           // props.navigation.navigate('SignIn');
-          resetStackWithNavigateRoute(props.navigation, 'SignIn');
+          resetStackWithNavigateRoute(props.navigation, ['SignIn'], [{}]);
         }
         // props.navigation.dispatch('Home');
 
