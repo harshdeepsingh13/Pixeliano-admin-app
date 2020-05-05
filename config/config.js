@@ -68,4 +68,6 @@ export default {
     apiURL: 'https://api.cloudinary.com/v1_1/harshdeep-singh/',
     uploadPreset: `pixeliano_preset_${mode}`,
   },
+  rssLink: `${getAPIUrl(mode)}listing/get/$userId$/posts`,
+  instagramTagLimit: 25
 };
