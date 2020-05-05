@@ -12,6 +12,7 @@ import config from '../../config/config';
 import createToast from '../../services/createToast.service';
 import Error from '../../components/Error';
 import fs from 'react-native-fs';
+import theme from '../../config/theme';
 
 const InsertData = ({navigation, route}) => {
   const isNewPost = useMemo(
@@ -244,6 +245,11 @@ const InsertData = ({navigation, route}) => {
                       tagId={index}
                       tagText={tag}
                       onClose={removeTag}
+                      tagStyles={
+                        {
+                          backgroundColor: index <= (config.instagramTagLimit - 1) ? theme.basicColors.lightBlueGrey : '',
+                        }
+                      }
                     />
                   ))
               ),
