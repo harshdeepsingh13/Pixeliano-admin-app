@@ -10,6 +10,7 @@ import config from '../../config/config';
 import FullScreenLoader from '../../components/BasicUIElements/FullScreenLoader';
 import {deletePost as deletePostService} from '../../services/axios.service';
 import Error from '../../components/Error';
+import {copyToClipboard} from '../../services/Clipboard.service';
 
 const ViewPost = ({
                     navigation,
@@ -26,8 +27,42 @@ const ViewPost = ({
     picture,
     postId,
     tags,
-    whenPostUpdates
+    whenPostUpdates,
   } = route.params;
+
+  const headerMenus = [
+    {
+      text: 'Delete Post',
+      handleClick: () => {
+        console.log('deletePost');
+        deletePost();
+      },
+    },
+    {
+      text: 'Copy to Clipboard',
+      handleClick: () => {
+        const toCopy = `${caption}
+        
+        
+        
+        
+.
+.
+.
+.
+.
+${tags.slice(0, config.instagramTagLimit).map(({tag}) => `#${tag.split(/\s+/).join('').toLowerCase()}`).join(' ')}`;
+        copyToClipboard(toCopy);
+      },
+    },
+    {
+      text: 'Upload on Instagram',
+      handleClick: () => {
+        console.log('uploadOn Instagram');
+      },
+      disabled: true,
+    },
+  ];
 
   useEffect(
     () => {
@@ -86,24 +121,7 @@ const ViewPost = ({
           imageProvider={picture.providerName}
           imageShortName={picture.shortName}
           isOptionsMenu={true}
-          menus={
-            [
-              {
-                text: 'Delete Post',
-                handleClick: () => {
-                  console.log('deletePost');
-                  deletePost();
-                },
-              },
-              {
-                text: 'Upload on Instagram',
-                handleClick: () => {
-                  console.log('uploadOn Instagram');
-                },
-                disabled: true,
-              },
-            ]
-          }
+          menus={headerMenus}
         />
         <ViewCaption
           caption={caption}
@@ -113,12 +131,17 @@ const ViewPost = ({
             tags.map(({
                         tagId,
                         tag,
-                      }) => (
+                      }, index) => (
               <Tag
                 key={tagId}
                 tagId={tagId}
                 tagText={tag}
                 toClose={false}
+                tagStyles={
+                  {
+                    backgroundColor: index <= (config.instagramTagLimit - 1) ? theme.basicColors.lightBlueGrey : '',
+                  }
+                }
               />
             ))
           }
@@ -132,7 +155,7 @@ const ViewPost = ({
           postId,
           tags,
           isNew: false,
-          whenPostUpdates
+          whenPostUpdates,
         })}
       />
     </View>
