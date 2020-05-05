@@ -10,10 +10,33 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HamMenu from './components/HamMenu';
 import {deleteItem} from './services/asyncStorage.service';
 import resetStackWithNavigateRoute from './services/resetStackWithNavigateRoute.service';
+import Settings from './containerComponents/Settings';
 
 const Stack = createStackNavigator();
 
 export default App => (initialProps) => {
+  const dashboardMenus = navigation => [
+    {
+      text: 'Settings',
+      handleClick: () => {
+        (async () => {
+        })(
+          navigation.push('Settings'),
+        );
+      },
+    },
+    {
+      text: 'Logout',
+      handleClick: () => {
+        (async () => {
+            await deleteItem();
+            resetStackWithNavigateRoute(navigation, ['SignIn']);
+          }
+        )();
+      },
+    },
+  ];
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -63,18 +86,7 @@ export default App => (initialProps) => {
                 (
                   <HamMenu
                     buttonColor={arg.tintColor}
-                    menus={[
-                      {
-                        text: 'Logout',
-                        handleClick: () => {
-                          (async () => {
-                              await deleteItem();
-                              resetStackWithNavigateRoute(navigation, 'SignIn');
-                            }
-                          )();
-                        },
-                      },
-                    ]}
+                    menus={[...dashboardMenus(navigation)]}
                   />
                 ),
             })
@@ -93,6 +105,13 @@ export default App => (initialProps) => {
           options={{
             headerShown: false,
           }}
+        />
+        <Stack.Screen
+          name={'Settings'}
+          component={Settings}
+          options={{
+            title: "Settings"
+        }}
         />
       </Stack.Navigator>
     </NavigationContainer>
