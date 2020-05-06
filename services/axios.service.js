@@ -71,20 +71,27 @@ export const updatePost = ({
     },
   });
 
-exports.getPosts = () =>
+export const getPosts = () =>
   axiosInstance({
     method: 'GET',
     url: `${config.apiUrl}post/getAllPosts`,
   });
 
-exports.deletePost = (postId) =>
+export const deletePost = (postId) =>
   axiosInstance({
     method: 'DELETE',
     url: `${config.apiUrl}post/record/${postId}`,
   });
 
-exports.getPostsCount = () =>
+export const getPostsCount = () =>
   axiosInstance({
-    method: "GET",
-    url: `${config.apiUrl}post/getPostCount`
+    method: 'GET',
+    url: `${config.apiUrl}post/getPostCount`,
+  });
+
+export const saveDefaultTags = (tags) =>
+  axiosInstance({
+    method: 'PUT',
+    url: `${config.apiUrl}user/saveDefaultTags`,
+    data: {tags},
   });
