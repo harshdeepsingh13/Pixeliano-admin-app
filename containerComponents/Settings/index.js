@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TouchableNativeFeedback, View} from 'react-native';
 import style from './styles.js';
 import config from '../../config/config';
@@ -8,14 +8,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {getUserId} from '../../services/asyncStorage.service';
 import theme from '../../config/theme';
 import {copyToClipboard} from '../../services/Clipboard.service';
+import DefaultTags from '../../components/DefaultTags';
 
 library.add(faCopy);
 
 const Settings = props => {
 
-  const [rssLink, setRssLink] = React.useState('');
+  const [rssLink, setRssLink] = useState('');
+  const [isParentScrollEnabled, setIsParentScrollEnabled] = useState(true);
 
-  React.useEffect(
+  useEffect(
     () => {
       getUserId()
         .then(userId => {
@@ -29,7 +31,13 @@ const Settings = props => {
   );
 
   return (
-    <ScrollView style={style.settingsContainer}>
+    <ScrollView
+      style={style.settingsContainer}
+      nestedScrollEnabled={true}
+      keyboardShouldPersistTaps={'always'}
+      keyboardDismissMode={'on-drag'}
+      scrollEnabled={isParentScrollEnabled}
+    >
       <View style={[style.rssLinkContainer, style.settings]}>
         <Text numberOfLines={1} style={style.rssLink}>
           {
@@ -48,6 +56,11 @@ const Settings = props => {
             style={{...style.copyIcon}}
           />
         </TouchableNativeFeedback>
+      </View>
+      <View style={[style.settings, style.defaultTagsContainer]}>
+        <DefaultTags
+          setIsParentScrollEnabled={setIsParentScrollEnabled}
+        />
       </View>
     </ScrollView>
   );
