@@ -15,11 +15,12 @@ const Tag = ({
                toClose,
                onClose,
                tagStyles,
+               tagTextStyles,
              }) => {
   return (
     <View style={style.tagContainer}>
       <View style={[style.tag, tagStyles]}>
-        <Text style={style.tagText}>
+        <Text style={[style.tagText, tagTextStyles]}>
           {
             tagText
           }
@@ -48,6 +49,7 @@ Tag.propTypes = {
   toClose: PropTypes.bool,
   onClose: PropTypes.func,
   tagStyles: PropTypes.object,
+  tagTextStyles: PropTypes.object,
 };
 
 Tag.defaultProps = {
@@ -56,6 +58,7 @@ Tag.defaultProps = {
   onClose: () => console.log('tag on close'),
   toClose: true,
   tagStyles: {},
+  tagTextStyles: {},
 };
 
 Tag.navigationOptions = {};
