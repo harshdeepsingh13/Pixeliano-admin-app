@@ -56,7 +56,8 @@ const SignIn = props => {
           email: userData.email,
           name: userData.name,
           token: userData.token,
-          userId: userData.userId
+          userId: userData.userId,
+          defaultTags: userData.defaultTags,
         });
         resetStackWithNavigationRoute(props.navigation, ['Dashboard']);
       } catch (e) {
@@ -72,8 +73,8 @@ const SignIn = props => {
           setSignInStatus({
             ...signInStatus,
             status: config.status.failed,
-            errorMessage: config.errorMessages.APIresponseMessages[500]
-          })
+            errorMessage: config.errorMessages.APIresponseMessages[500],
+          });
         }
       }
 
