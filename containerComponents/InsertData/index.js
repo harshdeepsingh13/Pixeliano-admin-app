@@ -13,6 +13,7 @@ import createToast from '../../services/createToast.service';
 import Error from '../../components/Error';
 import fs from 'react-native-fs';
 import theme from '../../config/theme';
+import {getDefaultTags, getItem} from '../../services/asyncStorage.service';
 
 const InsertData = ({navigation, route}) => {
   const isNewPost = useMemo(
@@ -67,10 +68,31 @@ const InsertData = ({navigation, route}) => {
           ...caption,
           value: captionFromNav,
         });
-        setTags({
-          ...tags,
-          value: tagsFromNav.map(tag => ({tag: tag.tag, tagId: tag.tagId})),
-        });
+        getItem()
+          .then(({defaultTags, isDefaultTagOnEdit} = []) => {
+            if (isDefaultTagOnEdit) {
+              setTags({
+                ...tags,
+                value: [...defaultTags, ...tagsFromNav].map(tag => ({tag: tag.tag, tagId: tag.tagId})),
+              });
+            } else {
+              setTags({
+                ...tags,
+                value: tagsFromNav.map(tag => ({tag: tag.tag, tagId: tag.tagId}))
+              });
+            }
+          })
+          .catch(e => {
+            console.log('defaultTags error', e);
+          });
+      } else {
+        getDefaultTags()
+          .then((defaultTags = []) => {
+            setTags({...tags, value: [...defaultTags]});
+          })
+          .catch(e => {
+            console.log('InsertData defaultTags error', e);
+          });
       }
     },
     [isNewPost, route.params, setPicture, setCaption, setTags],
@@ -230,10 +252,6 @@ const InsertData = ({navigation, route}) => {
             )
           }
         />
-        {/*  {
-        picture.value &&
-        <Image source={{uri: picture.value.data}} style={{aspectRatio: 1, resizeMode: 'contain'}}/>
-      }*/}
         <TagsContainer>
           {
             useMemo(
