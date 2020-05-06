@@ -10,6 +10,7 @@ const Button = ({
                   theme: themeFromProps,
                   styles,
                   showActivityIndicator,
+                  disabled,
                 }) => {
 
   const onPressHandle = () => {
@@ -18,6 +19,7 @@ const Button = ({
 
   return (
     <TouchableNativeFeedback
+      disabled={disabled}
       background={TouchableNativeFeedback.Ripple(
         themeFromProps === 'primary' ? theme.light.button.primaryDark : theme.light.primary,
         false,
@@ -55,6 +57,7 @@ Button.propTypes = {
   theme: PropTypes.oneOf(['primary', 'secondary', 'menu']),
   styles: PropTypes.object,
   showActivityIndicator: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -63,6 +66,7 @@ Button.defaultProps = {
   theme: 'primary',
   styles: undefined,
   showActivityIndicator: false,
+  disabled: false,
 };
 
 Button.navigationOptions = {};
