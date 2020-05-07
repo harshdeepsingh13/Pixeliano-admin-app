@@ -69,5 +69,5 @@ export default {
     uploadPreset: `pixeliano_preset_${mode}`,
   },
   rssLink: `${getAPIUrl(mode)}listing/get/$userId$/posts`,
-  instagramTagLimit: 25
+  instagramTagLimit: 27
 };
