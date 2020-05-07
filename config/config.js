@@ -8,7 +8,7 @@ const apiUrl = {
 
 const modes = ['dev', 'herokudev', 'prod'];
 
-const mode = modes[0];
+const mode = modes[2];
 
 const getAPIUrl = mode => {
   switch (mode) {
