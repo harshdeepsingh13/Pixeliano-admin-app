@@ -177,7 +177,7 @@ const InsertData = ({navigation, route}) => {
       });
       setSavePostStatus({...savePostStatus, status: config.status.success});
       createToast('New Post Saved', 'LONG');
-      navigation.goBack();
+      isNewPost && route.params.image ? navigation.replace('Dashboard') : navigation.goBack();
     } catch (e) {
       if (e.isCloudinaryError) {
         setSavePostStatus({...savePostStatus, status: config.status.failed, message: e.message});
