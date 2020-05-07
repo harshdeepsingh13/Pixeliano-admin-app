@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ScrollView, Text, TouchableNativeFeedback, View} from 'react-native';
 import style from './styles.js';
 import config from '../../config/config';
@@ -17,6 +17,8 @@ const Settings = props => {
   const [rssLink, setRssLink] = useState('');
   const [isParentScrollEnabled, setIsParentScrollEnabled] = useState(true);
 
+  const scrollViewRef = useRef(undefined);
+
   useEffect(
     () => {
       getUserId()
@@ -33,6 +35,7 @@ const Settings = props => {
   return (
     <ScrollView
       style={style.settingsContainer}
+      ref={scrollViewRef}
       nestedScrollEnabled={true}
       keyboardShouldPersistTaps={'always'}
       keyboardDismissMode={'on-drag'}
@@ -60,6 +63,7 @@ const Settings = props => {
       <View style={[style.settings, style.defaultTagsContainer]}>
         <DefaultTags
           setIsParentScrollEnabled={setIsParentScrollEnabled}
+          parentScrollRef={scrollViewRef}
         />
       </View>
     </ScrollView>

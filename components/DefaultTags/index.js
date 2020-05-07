@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Switch, Text, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
@@ -14,7 +14,7 @@ import Button from '../BasicUIElements/Button';
 import Error from '../Error';
 import createToast from '../../services/createToast.service';
 
-const DefaultTags = ({setIsParentScrollEnabled}) => {
+const DefaultTags = ({setIsParentScrollEnabled, parentScrollRef}) => {
 
   const [defaultTags, setDefaultTags] = useState([]);
   const [inputTagText, setInputTagText] = useState('');
@@ -23,6 +23,8 @@ const DefaultTags = ({setIsParentScrollEnabled}) => {
     message: '',
   });
   const [onEdit, setOnEdit] = useState(false);
+
+  const inputDefaultTagsRef = useRef(undefined);
 
   useEffect(
     () => {
@@ -72,9 +74,11 @@ const DefaultTags = ({setIsParentScrollEnabled}) => {
       tag,
     ]));
     setInputTagText('');
+    inputDefaultTagsRef.current.blur();
   };
 
   const handleChange = ({value}) => {
+    parentScrollRef.current.scrollToEnd();
     setInputTagText(value);
   };
 
@@ -162,6 +166,7 @@ const DefaultTags = ({setIsParentScrollEnabled}) => {
                   setInputTagText('');
                   setIsParentScrollEnabled(true);
                 }}
+                ref={inputDefaultTagsRef}
               />
             )
           }
@@ -194,6 +199,7 @@ const DefaultTags = ({setIsParentScrollEnabled}) => {
 
 DefaultTags.propTypes = {
   setIsParentScrollEnabled: PropTypes.func,
+  parentScrollRef: PropTypes.any,
 };
 
 export default DefaultTags;
