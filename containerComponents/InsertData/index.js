@@ -99,6 +99,7 @@ const InsertData = ({navigation, route}) => {
   );
 
   const scrollViewRef = useRef(undefined);
+  const inputTagsRef = useRef(undefined);
 
   const getImage = useCallback(
     (imageResponse) => {
@@ -136,6 +137,7 @@ const InsertData = ({navigation, route}) => {
       value: [...tags.value, tag],
       inputValue: '',
     });
+    inputTagsRef.current.blur();
   };
   const removeTag = (index) => {
     setTags((prevTags) => ({
@@ -289,6 +291,7 @@ const InsertData = ({navigation, route}) => {
                 value={inputValue}
                 iconName={'hashtag'}
                 handleChange={handleChange}
+                ref={inputTagsRef}
                 handleFocus={() => setIsParentScrollEnabled(false)}
                 handleBlur={() => {
                   setTags({...tags, inputValue: ''});
