@@ -51,7 +51,7 @@ const AutoComplete = ({
       })();
 
     },
-    [inputValue],
+    [inputValue, serviceStatus],
   );
   return (
     <View style={style.autocompleteContainer}>
