@@ -22,8 +22,10 @@ export default StyleSheet.create({
   },
   itemText: {
     fontWeight: 'bold',
+    width: '100%',
   },
   addNewItem: {
     flexDirection: 'row',
+    width: '100%',
   },
 });

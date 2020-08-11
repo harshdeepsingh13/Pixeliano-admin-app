@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import React, {memo, useEffect, useMemo, useState} from 'react';
 import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
@@ -21,7 +21,7 @@ const AutoComplete = ({
   const [autocompleteItems, setAutocompleteItems] = useState([]);
   const [inputViewDisplayConfig, setInputViewDisplayConfig] = useState({});
 
-  const filterItems = useCallback(
+  const filterItems = useMemo(
     () =>
       [
         ...autocompleteItems.filter(item =>
@@ -68,7 +68,7 @@ const AutoComplete = ({
                      },
                    }) => {
           setInputViewDisplayConfig({x, y, width, height});
-      }}>
+        }}>
         {
           children(inputValue)
         }
@@ -88,7 +88,7 @@ const AutoComplete = ({
           }
           {
             serviceStatus === config.status.success &&
-            filterItems().map((item) =>
+            filterItems.map((item) =>
               (
                 <TouchableOpacity
                   key={item.itemId}
@@ -116,9 +116,7 @@ const AutoComplete = ({
                 style={{marginRight: 10}}
               />
               <Text style={style.itemText}>
-                {
-                  inputValue
-                }
+                {inputValue}
               </Text>
             </TouchableOpacity>
           }
