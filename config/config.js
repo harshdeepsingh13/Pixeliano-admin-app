@@ -1,7 +1,6 @@
 const apiUrl = {
-  homeLocalHostIP: 'http://192.168.1.15:8080/api/v1/',
+  homeLocalHostIP: 'http://192.168.29.208:8080/api/v1/',
   rnDaemon: 'http://10.0.2.2:8080/api/v1/',
-  officeLocalHostIP: 'http://10.1.212.207:8080/api/v1/',
   herokuDev: 'https://broadcast-rss-dev.herokuapp.com/api/v1/',
   herokuProd: 'https://broadcast-rss.herokuapp.com/api/v1/',
 };

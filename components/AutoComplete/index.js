@@ -1,20 +1,21 @@
-import React, {memo, useEffect, useMemo, useState} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {ActivityIndicator, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import style from './styles.js';
 import PropTypes from 'prop-types';
 import config from '../../config/config';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faPlusSquare} from '@fortawesome/free-solid-svg-icons';
+import {faMinusCircle, faPlusSquare} from '@fortawesome/free-solid-svg-icons';
 import theme from '../../config/theme';
 
-library.add(faPlusSquare);
+library.add(faPlusSquare, faMinusCircle);
 
 const AutoComplete = ({
                         children,
                         inputValue,
                         autoCompleteService,
                         itemSelectCallback,
+                        deleteItemCallback,
                       }) => {
 
   const [serviceStatus, setServiceStatus] = useState(config.status.default);
@@ -53,6 +54,16 @@ const AutoComplete = ({
     },
     [inputValue, serviceStatus],
   );
+
+  const handleDeleteItem = useCallback(
+    (item) => {
+      const acItems = autocompleteItems.filter(({itemId}) => itemId + '' !== item.itemId + '');
+      setAutocompleteItems(acItems);
+      deleteItemCallback(item);
+    },
+    [autocompleteItems, setAutocompleteItems],
+  );
+
   return (
     <View style={style.autocompleteContainer}>
       <View
@@ -96,10 +107,20 @@ const AutoComplete = ({
                   onPress={itemSelectCallback.bind(this, item)}
                 >
                   <Text style={style.itemText}>
-                    {
-                      item.value
-                    }
+                    {item.value}
                   </Text>
+                  <TouchableOpacity
+                    key={`delete - ${item.itemId}`}
+                    style={style.deleteIconIconContainer}
+                    onPress={handleDeleteItem.bind(this, item)}
+                  >
+                    <FontAwesomeIcon
+                      icon={'minus-circle'}
+                      size={21}
+                      color={theme.backgroundAndBorders.lightRed}
+                      style={{marginRight: 10}}
+                    />
+                  </TouchableOpacity>
                 </TouchableOpacity>
               ))
           }
@@ -115,7 +136,7 @@ const AutoComplete = ({
                 color={theme.light.primaryDark}
                 style={{marginRight: 10}}
               />
-              <Text style={style.itemText}>
+              <Text style={[style.itemText, style.addNewItem]}>
                 {inputValue}
               </Text>
             </TouchableOpacity>
@@ -130,12 +151,15 @@ AutoComplete.propTypes = {
   inputValue: PropTypes.string.isRequired,
   autoCompleteService: PropTypes.func.isRequired,
   itemSelectCallback: PropTypes.func,
+  deleteItemCallback: PropTypes.func,
 };
 
 AutoComplete.defaultProps = {
   inputValue: '',
   autoCompleteService: () => console.log('Auto complete service.'),
   itemSelectCallback: () => console.log('item touch callback'),
+  deleteItemCallback: () => {
+  },
 };
 
 AutoComplete.navigationOptions = {};

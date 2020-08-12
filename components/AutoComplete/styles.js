@@ -19,13 +19,17 @@ export default StyleSheet.create({
   }),
   autocompleteItem: {
     padding: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   itemText: {
     fontWeight: 'bold',
-    width: '100%',
+    width: '90%',
   },
   addNewItem: {
     flexDirection: 'row',
     width: '100%',
   },
+  deleteIconIconContainer: {},
 });
