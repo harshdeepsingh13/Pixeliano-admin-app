@@ -5,7 +5,7 @@ import InputText from '../../components/BasicUIElements/InputText';
 import Tag from '../../components/Tag';
 import TagsContainer from '../../components/TagsContainer';
 import AutoComplete from '../../components/AutoComplete';
-import {getTagsSuggestion, saveNewPost, updatePost as updatePostService} from '../../services/axios.service';
+import {deleteTag, getTagsSuggestion, saveNewPost, updatePost as updatePostService} from '../../services/axios.service';
 import Button from '../../components/BasicUIElements/Button';
 import {getCloudinaryImageUrl, uploadImage} from '../../services/cloudinary.service';
 import config from '../../config/config';
@@ -160,6 +160,11 @@ const InsertData = ({navigation, route}) => {
       throw e;
     }
   };
+
+  const onDeleteTag = tag => {
+    deleteTag(tag.itemId);
+  };
+
   const handlePostSubmit = async () => {
     // setSavePostStatus(config.status.started);
     isNewPost ?
@@ -281,6 +286,7 @@ const InsertData = ({navigation, route}) => {
           inputValue={tags.inputValue}
           autoCompleteService={tagAutoComplete}
           itemSelectCallback={addTag}
+          deleteItemCallback={onDeleteTag}
         >
           {
             inputValue => (

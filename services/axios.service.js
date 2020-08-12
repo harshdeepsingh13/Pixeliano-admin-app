@@ -33,7 +33,7 @@ export const registerNewUser = userDetails =>
 export const getTagsSuggestion = autocomplete =>
   axiosInstance({
     method: 'GET',
-    url: `${config.apiUrl}post/getTags`,
+    url: `${config.apiUrl}tag/getTags`,
     params: {
       q: autocomplete,
     },
@@ -94,4 +94,11 @@ export const saveDefaultTags = (tags) =>
     method: 'PUT',
     url: `${config.apiUrl}user/saveDefaultTags`,
     data: {tags},
+  });
+
+export const deleteTag = tagId =>
+  axiosInstance({
+    method: 'DELETE',
+    url: `${config.apiUrl}tag/deleteTag`,
+    data: {tagId},
   });

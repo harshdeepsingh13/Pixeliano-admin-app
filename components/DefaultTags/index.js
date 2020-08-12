@@ -9,7 +9,7 @@ import config from '../../config/config';
 import theme from '../../config/theme';
 import AutoComplete from '../AutoComplete';
 import InputText from '../BasicUIElements/InputText';
-import {getTagsSuggestion, saveDefaultTags} from '../../services/axios.service';
+import {deleteTag, getTagsSuggestion, saveDefaultTags} from '../../services/axios.service';
 import Button from '../BasicUIElements/Button';
 import Error from '../Error';
 import createToast from '../../services/createToast.service';
@@ -75,6 +75,10 @@ const DefaultTags = ({setIsParentScrollEnabled, parentScrollRef}) => {
     ]));
     setInputTagText('');
     inputDefaultTagsRef.current.blur();
+  };
+
+  const onDeleteTag = tag => {
+    deleteTag(tag.itemId);
   };
 
   const handleChange = ({value}) => {
@@ -151,6 +155,7 @@ const DefaultTags = ({setIsParentScrollEnabled, parentScrollRef}) => {
           inputValue={inputTagText}
           autoCompleteService={tagAutoComplete}
           itemSelectCallback={addTag}
+          deleteItemCallback={onDeleteTag}
         >
           {
             inputTagText => (
