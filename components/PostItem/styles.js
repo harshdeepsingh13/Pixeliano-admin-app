@@ -5,11 +5,16 @@ export default StyleSheet.create({
   postItemContainer: {
     paddingLeft: 5,
     paddingRight: 5,
+    marginBottom: 5,
   },
-  captionPictureContainer: {
+  captionTagPictureContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+  },
+  captionTagContainer: {
+    flexDirection: 'column',
+    flex: 1,
   },
   caption: {
     paddingTop: 5,
@@ -23,9 +28,9 @@ export default StyleSheet.create({
     borderRadius: 4,
     width: 75,
     aspectRatio: 1,
-    // height: 100
   },
   tagsContainer: {
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -33,5 +38,7 @@ export default StyleSheet.create({
     fontStyle: 'italic',
     marginRight: 10,
     color: theme.text.greyLight,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
