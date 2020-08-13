@@ -47,12 +47,28 @@ const PostItem = ({
         }}
       >
         <View>
-          <View style={style.captionPictureContainer}>
-            <Text style={style.caption}>
-              {
-                caption.length > 50 ? `${caption.slice(0, 50)}...` : caption
-              }
-            </Text>
+          <View style={style.captionTagPictureContainer}>
+            <View style={style.captionTagContainer}>
+              <Text style={style.caption}>
+                {
+                  caption.length > 50 ? `${caption.slice(0, 50)}...` : caption
+                }
+              </Text>
+              <View style={style.tagsContainer}>
+                {
+                  tags.slice(0, 5).map(({tag, tagId}) => (
+                    <Text
+                      key={tagId}
+                      style={style.tag}
+                    >
+                      {
+                        `# ${tag.split(/\s+/).join('_').toLowerCase()}`
+                      }
+                    </Text>
+                  ))
+                }
+              </View>
+            </View>
             <ImageBackground
               source={assets.logo.icon.grey}
               style={style.picture}
@@ -63,20 +79,7 @@ const PostItem = ({
               />
             </ImageBackground>
           </View>
-          <View style={style.tagsContainer}>
-            {
-              tags.slice(0, 10).map(({tag, tagId}) => (
-                <Text
-                  key={tagId}
-                  style={style.tag}
-                >
-                  {
-                    `# ${tag.split(/\s+/).join('_').toLowerCase()}`
-                  }
-                </Text>
-              ))
-            }
-          </View>
+
         </View>
       </TouchableNativeFeedback>
     </View>
