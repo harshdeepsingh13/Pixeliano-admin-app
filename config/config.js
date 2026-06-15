@@ -61,8 +61,11 @@ export default {
     userDetails: 'user',
   },
   cloudinary: {
-    apiKey: '851184338949628',
-    apiSecret: '0sIXpYfKjBO9XlDvX9AnZHvOLKw',
+    // Secrets are injected from the environment at build time via
+    // babel-plugin-transform-inline-environment-variables. Set CLOUDINARY_API_KEY
+    // and CLOUDINARY_API_SECRET in your environment before building (see .env.example).
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
     secureDeliveryURL: 'https://res.cloudinary.com/harshdeep-singh/image/upload/',
     apiURL: 'https://api.cloudinary.com/v1_1/harshdeep-singh/',
     uploadPreset: `pixeliano_preset_${mode}`,
