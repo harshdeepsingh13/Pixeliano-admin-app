@@ -81,7 +81,17 @@ cd ios && pod install && cd ..
 
 ### Configure
 
-There is no `.env` file. Open `config/config.js` and set the `mode` (`dev` / `herokudev` / `prod`) to pick the backend URL, and supply your Cloudinary credentials and upload preset before building.
+The backend URL and Cloudinary upload preset are selected by the `mode` switch (`dev` / `herokudev` / `prod`) in `config/config.js`.
+
+Cloudinary **credentials are read from the environment at build time** (inlined by `babel-plugin-transform-inline-environment-variables`) and are never committed to the repo. Provide them before building — see `.env.example`:
+
+```bash
+CLOUDINARY_API_KEY=your_key CLOUDINARY_API_SECRET=your_secret npm run android
+```
+
+In production, set `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` in your build environment / CI secrets.
+
+> Note: this app signs Cloudinary uploads on the client, so these credentials are inlined into the shipped bundle and can still be extracted from a built app. Moving signing to a backend endpoint (see Future scope) is the durable fix; the environment change here removes the secrets from source control.
 
 ### Run
 
